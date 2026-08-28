@@ -1,0 +1,13 @@
+{
+  "id": "kushtokas/solari-final",
+  "title": "solari-final",
+  "code_file": "solari-final.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": false,
+  "enable_internet": false,
+  "dataset_sources": ["kushtokas/solari-pipeline"],
+  "competition_sources": ["ch-27-celebal-technologies-iiit-ds"],
+  "keywords": []
+}

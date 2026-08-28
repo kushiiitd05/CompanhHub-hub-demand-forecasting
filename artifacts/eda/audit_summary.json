@@ -1,0 +1,94 @@
+{
+  "closed_nonzero_orders": 0,
+  "closed_nonzero_sessions": 0,
+  "closed_rows": 166269,
+  "date_ranges": {
+    "test": [
+      "2015-06-20 00:00:00",
+      "2015-07-31 00:00:00"
+    ],
+    "train": [
+      "2013-01-01 00:00:00",
+      "2015-06-19 00:00:00"
+    ]
+  },
+  "duplicate_hub_dates": {
+    "test": 0,
+    "train": 0
+  },
+  "historical_conversion_median": 9.227467811158798,
+  "metadata_hub_coverage": true,
+  "metadata_missing": {
+    "AssortmentTier": 0,
+    "CompetitorDistance": 3,
+    "CompetitorOpenSinceMonth": 354,
+    "CompetitorOpenSinceYear": 354,
+    "HubFormat": 0,
+    "HubID": 0,
+    "LoyaltyProgram": 0,
+    "LoyaltyProgramInterval": 544,
+    "LoyaltyProgramSinceWeek": 544,
+    "LoyaltyProgramSinceYear": 544
+  },
+  "open_no_promo_order_mean": 5930.684338217902,
+  "open_order_mean": 6954.355902799368,
+  "open_order_median": 6368.0,
+  "open_promo_mean_lift_pct": 38.53307019244432,
+  "open_promo_order_mean": 8215.959097155708,
+  "open_session_mean": 764.2178184576737,
+  "open_zero_orders": 54,
+  "open_zero_sessions": 52,
+  "order_session_pearson_all": 0.8960341838932877,
+  "order_session_pearson_open": 0.8252360925491367,
+  "panel_missing_rows": 33121,
+  "panel_missing_run_counts": {
+    "1": 1,
+    "184": 180
+  },
+  "raw_file_hashes": {
+    "metadata": "7f65b8749b8253b7bd61975b9792e5b42574d3437d03c0283227bd32cc8fe527",
+    "submission": "6a045a5edb836800b1ef946cb956a8ebae432c20b9fd005243a8b00544120cfd",
+    "test": "f8478bbe5c89986ab441987db64bf02fc520d5aaf9c85b72c0d85a972c13d5a5",
+    "train": "bc0bf2521d2cc1912bfe97c3d2ac2c4ad17c7849e21bcae8a139a1fdf84e11b6"
+  },
+  "shapes": {
+    "metadata": [
+      1115,
+      10
+    ],
+    "submission": [
+      46830,
+      2
+    ],
+    "test": [
+      46830,
+      8
+    ],
+    "train": [
+      970379,
+      9
+    ]
+  },
+  "shared_model_input_columns": [
+    "HubID",
+    "Weekday",
+    "Date",
+    "IsOpen",
+    "PromoActive",
+    "RegionalHoliday",
+    "SchoolClosureFlag"
+  ],
+  "submission_ids_match": true,
+  "test_closed_rows": 6548,
+  "test_complete_grid": true,
+  "test_id_date_major_hub_minor": true,
+  "unique_hubs": {
+    "metadata": 1115,
+    "test": 1115,
+    "train": 1115
+  },
+  "weekday_mismatches": {
+    "test": 0,
+    "train": 0
+  }
+}

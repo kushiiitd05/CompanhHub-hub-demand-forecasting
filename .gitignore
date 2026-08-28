@@ -1,0 +1,20 @@
+# OS / editor cruft
+.DS_Store
+**/.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Local Claude Code permissions (machine-specific, not project content)
+.claude/settings.local.json
+
+# Redundant Kaggle-upload repackaging (164MB, duplicates src/ + data/processed/
+# already tracked elsewhere in this repo — regenerate with:
+#   cd artifacts && zip -r kaggle_upload_pkg.zip ../src ../data/processed
+artifacts/kaggle_upload_pkg.zip
+
+# Local Kaggle credentials — never commit
+.kaggle/
+kaggle.json
+access_token
