@@ -1,4 +1,4 @@
-# Hub Order Demand Forecasting — CH'27 Celebal Technologies × IIITD
+# Hub Order Demand Forecasting —
 
 Time-series demand forecasting for 1,115 retail hubs over a 42-day horizon. Built for the
 **CH'27 Celebal Technologies × IIITD Data Science** competition, and reused here as our
