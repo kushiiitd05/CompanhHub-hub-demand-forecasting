@@ -1,0 +1,5 @@
+test,sensitivity_method,n_units,statistic,p_raw,notes
+T1_monday_vs_friday_promotion_lift,Wilcoxon signed-rank,1115,754.0,4.46709728748528e-183,Nonparametric paired sensitivity test.
+T2_long_gap_vs_hub_format,Expected-cell-count diagnostic,1115,2.7443946188340806,,Any expected cell below 5: True. Use permutation p-value rather than relying only on asymptotic p.
+T3_competitor_distance_vs_demand,Kendall rank correlation,1112,-0.019264469419572938,0.3363640572412412,Alternative rank-based association measure.
+T4_demand_after_competitor_opening,Wilcoxon signed-rank,120,1682.0,3.3687051938359984e-07,"Nonparametric paired sensitivity test. Interpretation limited by approximate opening dates, selection of hubs with complete windows, and lack of control hubs."

@@ -1,0 +1,4 @@
+stage,rows,columns,rows_times_columns,missing_cells
+Raw training,970379,9,8733411,0
+Joined,970379,21,20377959,1589842
+Encoded,970379,35,33963265,1589842

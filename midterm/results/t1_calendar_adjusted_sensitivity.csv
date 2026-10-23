@@ -1,0 +1,2 @@
+analysis,n_rows,n_hubs,n_dates,monday_minus_friday_promotion_association,clustered_se,ci95_low,ci95_high,p_value,notes
+T1_hub_fixed_effects_sensitivity,262837,1115,257,2030.7427849346043,34.588950816087724,1962.949687072045,2098.5358827971636,0.0,"Hub fixed effects only; standard errors clustered by hub. Date fixed effects omitted because promotion is constant across hubs on each date. Observational association, not causal."
