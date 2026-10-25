@@ -1,0 +1,4 @@
+outer_window_days,buffer_days,n_hubs,mean_change_post_minus_pre,ci95_low,ci95_high,paired_t_statistic,paired_t_p,wilcoxon_statistic,wilcoxon_p,notes
+75,15,138,-433.1243516935297,-603.8862746383204,-262.36242874873903,-5.015600650775269,1.6095708927632608e-06,2595.0,2.91518254221682e-06,Opening date approximated as day 15; at least 30 operating days required in each window; no comparison hubs or calendar controls.
+105,15,120,-482.4243209672472,-650.2052369338521,-314.64340500064225,-5.693426650127489,9.133278667669064e-08,1682.0,3.3687051938359984e-07,Opening date approximated as day 15; at least 30 operating days required in each window; no comparison hubs or calendar controls.
+135,15,112,-476.9646709719176,-639.8258074626019,-314.1035344812333,-5.803332560872692,6.250757416572014e-08,1432.0,4.950613297113771e-07,Opening date approximated as day 15; at least 30 operating days required in each window; no comparison hubs or calendar controls.
