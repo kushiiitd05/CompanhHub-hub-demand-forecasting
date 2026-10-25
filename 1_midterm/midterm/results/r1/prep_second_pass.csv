@@ -1,0 +1,6 @@
+measure,value
+"pass-2 flags (per-hub robust z on log1p, |z|>3.5)",2645
+pass-2 hubs,551
+pass-2 high / low side,585 / 2060
+pass-2 explained by holiday/closure/reopen/pre-Christmas,1870
+pass-2 unexplained (kept; promo or none),775

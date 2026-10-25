@@ -1,0 +1,126 @@
+claim,claimed,recomputed,match
+train shape,"(970379, 9)","(970379, 9)",True
+meta shape,"(1115, 10)","(1115, 10)",True
+test shape,"(46830, 8)","(46830, 8)",True
+sample_submission shape,"(46830, 2)","(46830, 2)",True
+sample_submission all zero,True,True,True
+train dates unique,900,900,True
+train first date,2013-01-01,2013-01-01,True
+train last date,2015-06-19,2015-06-19,True
+train hubs,1115,1115,True
+rows 2013,406974,406974,True
+rows 2014,373855,373855,True
+rows 2015,189550,189550,True
+"train+test rows = Rossmann train 1,017,209",1017209,1017209,True
+weekday mismatches vs Date (1=Mon),0,0,True
+hub-date duplicates train,0,0,True
+hub-date duplicates test,0,0,True
+full-row duplicates train,0,0,True
+missing cells train,0,0,True
+same hub set train/test/meta,True,True,True
+volume min,0,0,True
+volume max,38722,38722,True
+volume mean all rows,5762.8,5762.77,True
+volume mean open,6954.4,6954.36,True
+volume median open,6368,6368.0,True
+volume skew open (g1),1.593,1.59325,True
+volume kurtosis open (normal=3),7.84,7.83992,True
+skew log1p(volume>0) open,-0.11,-0.110025,True
+sessions max,7388,7388,True
+sessions mean all,633.3,633.273,True
+sessions mean open,764.2,764.218,True
+"r(volume, sessions) all",0.896,0.896034,True
+"r(volume, sessions) open",0.825,0.825236,True
+open rows,804110,804110,True
+closed rows,166269,166269,True
+open share %,82.87,82.8656,True
+promo share %,38.27,38.2691,True
+promo on Sat/Sun rows,0,0,True
+holiday 0 share %,96.8,96.8002,True
+holiday 1 share %,2.09,2.08784,True
+holiday 2 share %,0.69,0.689421,True
+holiday 3 share %,0.42,0.422515,True
+open on holiday 1,694,694,True
+open on holiday 2,145,145,True
+open on holiday 3,71,71,True
+easter dates within 03-29..04-21,True,True,True
+christmas dates 12-25/12-26,"['12-25', '12-26']","['12-25', '12-26']",True
+school closure share %,17.35,17.3512,True
+format counts 1/2/3/4,"[602, 17, 148, 348]","[602, 17, 148, 348]",True
+tier counts 1/2/3,"[593, 9, 513]","[593, 9, 513]",True
+tier 2 only in format 2,True,True,True
+distance min,20,20.0,True
+distance max,75860,75860.0,True
+distance median,2325,2325.0,True
+distance Q1 (linear),717.5,717.5,True
+distance Q3 (linear),6882.5,6882.5,True
+distance skew g1,2.93,2.92533,True
+distance missing hubs,"[291, 622, 879]","[291, 622, 879]",True
+comp-open month missing,354,354,True
+comp-open year missing,354,354,True
+comp-open year min/max,"[1900, 2015]","[1900, 2015]",True
+"hub 815 = 1900, month 1","(1900, 1)","(1900, 1)",True
+"hub 146 = 1961, month 10","(1961, 10)","(1961, 10)",True
+competitor opened inside train (opening month 2013-01..2015-05),175,175,True
+... incl. June 2015 (month cut by train end),180,180,True
+competitor opened after train end,11,11,True
+loyalty yes/no,"[544, 571]","[544, 571]",True
+loyalty NA == no-loyalty (contradictions),0,0,True
+loyalty years,"[2009, 2015]","[2009, 2015]",True
+interval counts,"{'Jan,Apr,Jul,Oct': 335, 'Feb,May,Aug,Nov': 130, 'Mar,Jun,Sept,Dec': 106}","{'Jan,Apr,Jul,Oct': 335, 'Feb,May,Aug,Nov': 130, 'Mar,Jun,Sept,Dec': 106}",True
+"hub 1 metadata (3,1,1270,9,2008,0)","[3, 1, 1270, 9, 2008, 0]","[3, 1, 1270, 9, 2008, 0]",True
+"hub 2 loyalty (13, 2010, Jan,Apr,Jul,Oct)","[13, 2010, 'Jan,Apr,Jul,Oct']","[13, 2010, 'Jan,Apr,Jul,Oct']",True
+hubs sharing identical metadata (4 pairs),"[26, 426, 436, 473, 557, 651, 722, 773]","[26, 426, 436, 473, 557, 651, 722, 773]",True
+test Id 1..46830,True,True,True
+test dates,2015-06-20..2015-07-31 (42),2015-06-20..2015-07-31 (42),True
+test grid complete 1115x42,True,True,True
+test open %,86.02,86.0175,True
+test closures total,6548,6548,True
+test closures on Sunday,6497,6497,True
+hubs closed on weekdays (test),4,4,True
+test promo %,35.71,35.7143,True
+test holiday all 0,True,True,True
+test school %,28.51,28.5052,True
+expected hub-dates,1003500,1003500,True
+absent hub-dates,33121,33121,True
+gap hubs (2014-07-01..12-31),180,180,True
+each gap hub misses exactly 184 days,True,True,True
+other absent = hub 988 on 2013-01-01,"[(988, '2013-01-01')]","[(988, '2013-01-01')]",True
+gap hubs by format 1/2/3/4,"[84, 1, 14, 81]","[84, 1, 14, 81]",True
+closed rows with volume or sessions > 0,0,0,True
+open & volume 0 rows,54,54,True
+open & volume 0 hubs,41,41,True
+open-zero date range,2013-01-17..2015-05-15,2013-01-17..2015-05-15,True
+open & sessions 0,52,52,True
+sessions>0 & volume 0,2,2,True
+volume>0 & sessions 0,0,0,True
+IQR Q1,4856,4856.0,True
+IQR Q3,8360,8360.0,True
+upper fence,13616,13616.0,True
+rows above fence,29307,29307,True
+rows below fence,0,0,True
+share |z|>=2 %,4.24,4.24283,True
+share |z|>=3 %,1.59,1.59319,True
+share |z|>=4 %,0.6,0.595441,True
+robust z |z|>3.5 rows (volume>0),6220,6220,True
+robust z |z|>3.5 hubs (volume>0),1040,1040,True
+"max row (hub, date, holiday, promo)","(262, '2015-04-03', 2, 1)","(262, '2015-04-03', 2, 1)",True
+ratio median,9.23,9.22747,True
+ratio p99.9,17.19,17.1928,True
+ratio max,64.96,64.9579,True
+ratio > 30 rows,23,23,True
+ratio max row,"(897, '2013-09-02', 16954, 261)","(897, '2013-09-02', 16954, 261)",True
+last-digit counts min..max,80036..81052,80036..81052,True
+hubs open on 2013-01-01,17,17,True
+open holiday rows,910,910,True
+open Sunday rows,3400,3400,True
+Sunday-open hubs,33,33,True
+Mon promo mean,9762,9761.76,True
+Mon no-promo mean,6211,6211.24,True
+Fri promo mean,7733,7733.43,True
+Fri no-promo mean,6358,6358.3,True
+1-day closure runs,145746,145746,True
+2-day closure runs,9299,9299,True
+closure runs >= 5 days,88,88,True
+closure runs >= 14 days,45,45,True
+longest closure run,185,185,True

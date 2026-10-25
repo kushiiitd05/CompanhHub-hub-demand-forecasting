@@ -1,0 +1,11 @@
+measure,before,after
+Rows,970379,970379
+Attributes,9 (+9 metadata),46
+Instances x attributes,8733411,44637434
+Missing cells after join,2075025,1591274
+  of which 'not applicable' (no loyalty programme),-,970366
+Duplicate hub-dates / full rows,0 / 0,0 / 0
+"Skewness of open-day volume (raw -> log1p, volume>0)",1.593,-0.11
+Kurtosis (normal = 3) (raw -> log1p),7.84,3.65
+Rows flagged: open_zero / ratio / reopen / long_closure,-,54 / 23 / 1218 / 1898
+Rows flagged: pooled IQR / per-hub robust z,-,29307 / 6220

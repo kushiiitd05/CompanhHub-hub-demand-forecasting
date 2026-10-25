@@ -1,0 +1,12 @@
+step,rows,note
+"Full hub x date grid (1,115 x 900)",1003500,
+Absent hub-dates (180 gap hubs x 184 d + hub 988 on 2013-01-01): kept absent,33121,not imputed
+Rows in orders_train.csv,970379,
+Closed rows (structural zeros): excluded from volume tests,166269,"kept in table, flagged"
+Open rows,804110,
+Open with zero volume (open_zero): excluded,54,listed in README
+"Analysis base (open, volume > 0)",804056,all tests start here
+  of which in reopen windows (sensitivity exclusion),973,sensitivity only
+  of which ratio_anomaly (only matters for sessions),23,kept
+  of which on a regional holiday (excluded in T1),910,T1 only
+  of which at gap hubs,105492,kept; T2 studies them

@@ -1,0 +1,9 @@
+measure,value
+IQR-flagged rows,29307.0
+hubs with any IQR flag,635.0
+hubs whose own median > pooled Q3,189.0
+IQR-flagged rows at those hubs,25864.0
+share at those hubs %,88.25195345821817
+IQR-flagged rows that are also per-hub robust-z flags,2822.0
+"mean open-day volume, format 2 & tier 3 hubs",18001.093333333334
+n format 2 & tier 3 hubs,1.0
