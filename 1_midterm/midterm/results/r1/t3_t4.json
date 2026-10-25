@@ -1,0 +1,55 @@
+{
+  "T3": {
+    "primary": {
+      "n": 1112,
+      "estimate": -0.08186615323786851,
+      "statistic": -2.7366931654222126,
+      "df": 1110,
+      "crit_two_sided": 1.9621034585016683,
+      "p": 0.006305081174599271,
+      "p_manual": 0.006305081174599337,
+      "ci_low": -0.1399794754672577,
+      "ci_high": -0.023190766042562535,
+      "scipy_ci_low": -0.1399794754672577,
+      "scipy_ci_high": -0.02319076604256255,
+      "spearman": -0.03734163257967422,
+      "spearman_p": 0.21340670084694013,
+      "verdict": "CI straddles +-0.1: practical importance uncertain",
+      "agree_4sf": true
+    }
+  },
+  "T4": {
+    "primary": {
+      "n": 144,
+      "estimate": -0.09218112676560224,
+      "sd": 0.1170222874995052,
+      "se": 0.009751857291625433,
+      "statistic": -9.452673886518445,
+      "statistic_manual": -9.452673886518447,
+      "df": 143,
+      "crit_two_sided": 1.976692197929798,
+      "p": 8.980099412966884e-17,
+      "p_manual": 8.98009941296677e-17,
+      "ci_low": -0.11145754698928304,
+      "ci_high": -0.07290470654192144,
+      "pct": -0.08806004214976552,
+      "pct_low": -0.10547063393804305,
+      "pct_high": -0.07031058087556769,
+      "cohen_dz": -0.7877228238765371,
+      "wilcoxon_p": 1.9003963079884015e-17,
+      "sign_test_p": 5.44807980630921e-18,
+      "n_positive": 22,
+      "verdict": "whole CI beyond +-0.03: large enough to matter",
+      "agree_4sf": true
+    },
+    "counts": {
+      "treated_pool_inside_data": 180,
+      "eligible_month_range": "2013-03-01..2015-03-01",
+      "treated_used": 144,
+      "controls_pool": 498,
+      "controls_per_window_min": 418,
+      "controls_per_window_max": 498,
+      "control_change_sd_across_windows": 0.09252066913062643
+    }
+  }
+}

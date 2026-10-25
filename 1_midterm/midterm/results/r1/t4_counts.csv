@@ -1,0 +1,2 @@
+treated_pool_inside_data,eligible_month_range,treated_used,controls_pool,controls_per_window_min,controls_per_window_max,control_change_sd_across_windows
+180,2013-03-01..2015-03-01,144,498,418,498,0.09252066913062643
