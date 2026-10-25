@@ -20,6 +20,7 @@
 \usepackage{enumitem}
 \usepackage{titlesec}
 \usepackage{needspace}
+\usepackage{float}
 \usepackage[font=small,labelfont=bf]{caption}
 \usepackage[hidelinks]{hyperref}
 \hypersetup{
@@ -52,8 +53,8 @@
 \small
 \begin{tabularx}{\textwidth}{@{}>{\bfseries}p{0.15\textwidth}X@{}}
 Group name & DSC 10\\
-Dataset & Kaggle hub-order demand dataset supplied for the project\\
-Code & \url{https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting}\\
+Dataset & CH'27 Celebal Technologies--IIITD hub-demand competition files\\
+Code & \url{https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting/tree/cse558-midterm-2026}\\
 \end{tabularx}
 \vspace{4pt}
 \begin{center}
@@ -61,11 +62,11 @@ Code & \url{https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting}\\
 \toprule
 \# & Name & Roll no. & Institute email & Contribution\\
 \midrule
-1 & Manya Chaturvedi & 2023312 & manya23312@iiitd.ac.in & \\
-2 & Kush Tokas & 2023296 & Kush23296@iiitd.ac.in & \\
-3 & Akash Adur & 2024053 & akash24053@iiitd.ac.in & \\
-4 & Anusha Rana & 2023114 & anusha23114@iiitd.ac.in & \\
-5 & Sanjeev & 2023483 & sanjeev23483@iiitd.ac.in & \\
+1 & Manya Chaturvedi & 2023312 & manya23312@iiitd.ac.in & blah 1 \\
+2 & Kush Tokas & 2023296 & Kush23296@iiitd.ac.in & blah 2 \\
+3 & Akash Adur & 2024053 & akash24053@iiitd.ac.in & blah 3 \\
+4 & Anusha Rana & 2023114 & anusha23114@iiitd.ac.in & blah 4 \\
+5 & Sanjeev & 2023483 & sanjeev23483@iiitd.ac.in & blah 5 \\
 \bottomrule
 \end{tabularx}
 \end{center}
@@ -88,7 +89,7 @@ The training period runs from 1 January 2013 to 19 June 2015, spanning 900 disti
 Stage & Rows & Columns & Entries\\
 \midrule
 Raw training & 970,379 & 9 & 8,733,411\\
-After join & 970,379 & 21 & 20,377,959\\
+Join + flags & 970,379 & 21 & 20,377,959\\
 Encoded & 970,379 & 35 & 33,963,265\\
 \bottomrule
 \end{tabular}
@@ -117,6 +118,8 @@ Encoding & Expanded joined data from 21 to 35 columns & Makes categorical variab
 \end{tabularx}
 \end{table}
 
+\textbf{Outlier policy.} We audited nonnegative counts, recorded zeros on open days, the right-skewed distribution, and high-order observations. We did not automatically trim, winsorize, or delete high-demand operating days: these may be real demand spikes, and deleting them would change the research estimands. Descriptive Tukey-IQR fence counts are regenerated using \texttt{outlier\_audit.py}; passing an IQR fence does not itself imply a data error. \input{outliers_verified.tex}
+
 There are 1,003,500 possible hub--date combinations over the observed date range, compared with 970,379 observed records: 33,121 combinations are absent. These absent combinations are treated as unobserved, not as zero-demand days. Among observed records, 166,269 are marked closed and 804,110 open. The weekday coding was verified as Monday = 1 through Sunday = 7.
 
 \section{What changed after preparation}
@@ -127,7 +130,7 @@ There are 1,003,500 possible hub--date combinations over the observed date range
 \scriptsize
 \begin{tabular}{lrrr}
 \toprule
-Measure & Raw & Joined & Encoded\\
+Measure & Raw & Join + flags & Encoded\\
 \midrule
 Rows & 970,379 & 970,379 & 970,379\\
 Columns & 9 & 21 & 35\\
@@ -137,7 +140,7 @@ Missing cells & 0 & 1,589,842 & 1,589,842\\
 \end{tabular}
 \end{table}
 
-The join preserved the row count and added 12 columns; encoding added another 14 columns. The missing-cell count increased after joining and did not change during encoding. In the hub metadata, \texttt{CompetitorDistance} is missing for three hubs, competitor opening month/year for 354 hubs, and loyalty timing fields for 544 hubs each. We do not describe the resulting data as fully cleaned: missing metadata remain explicit and no arbitrary values are substituted.
+The metadata join added nine non-key fields (9 to 18 columns); three missingness indicators expanded it to 21 columns, and one-hot encoding added 14 net columns (35 total). The missing-cell count increased after joining and did not change during encoding. In the hub metadata, \texttt{CompetitorDistance} is missing for three hubs, competitor opening month/year for 354 hubs, and loyalty timing fields for 544 hubs each. We do not describe the resulting data as fully cleaned: missing metadata remain explicit and no arbitrary values are substituted.
 
 \section{Basic questions and problem statements}
 Exploratory analysis shows substantial variation in daily demand. On observed operating days, mean order volume is 6,954.36, median is 6,368, standard deviation is 3,106.67, and the range is 0--38,722. The distribution is right-skewed (skewness 1.593), so the mean is sensitive to high-demand days.
@@ -159,7 +162,7 @@ Exploratory analysis shows substantial variation in daily demand. On observed op
 \begin{figure}[t]
 \centering
 \figfile{promotion_by_weekday.png}{3.5cm}
-\caption{Mean order volume by weekday and promotion status. Promotion-associated differences are positive on weekdays shown.}
+\caption{Order-volume distributions by weekday and promotion status (boxplots); within-weekday distributions differ between promotion groups.}
 \label{fig:promotion}
 \end{figure}
 
@@ -180,20 +183,27 @@ Basic questions include whether promotion-associated demand differences vary by 
 
 \textbf{P4.} Does a hub's mean order volume differ between windows before and after a competitor's recorded opening date?
 
+\textbf{What is novel here?} The original challenge optimizes 42-day forecasts; this midterm instead tests four distinct operational hypotheses, using within-hub promotion contrasts, a hub-format data-coverage audit, rank association with competitor distance, and paired competitor-opening windows. Each addresses inferential questions beyond plotting or prediction and is explicitly observational.
+
 \section{Statistical inferences}
 We use a significance level of $\alpha=0.05$. Reported $p$-values are interpreted alongside effect estimates and 95\% confidence intervals. Holm adjustment is used across the four primary tests. These are observational analyses; statistical significance does not establish causality.
+
+\textbf{Practical importance (interpretive benchmarks, not preregistered).}
+We use an illustrative 350 orders per operating hub-day (about 5\% of the observed mean 6,954) for the mean contrasts in T1/T4; Cram\'er's $V\ge0.10$ for T2; and $|\rho_s|\ge0.10$ for T3. These exploratory thresholds were selected for interpretable scale, not supplied by a business partner. A CI crossing a benchmark leaves its practical importance uncertain, even when the null hypothesis is rejected.
+
+At Holm-adjusted $\alpha=0.05$, T1, T2, and T4 reject their null hypotheses; T3 fails to reject. These are statistical decisions only, not causal claims. All tests are non-directional/two-sided at $\alpha=0.05$. Degrees of freedom are given where the statistic uses them; the Spearman test uses a rank-based statistic rather than a conventional Student-$t$ test on independent daily observations.
 
 \subsection{Test 1 (P1): Monday versus Friday promotion lift}
 \textbf{Hypotheses.} Let $\Delta_{h,d}$ be the difference between a hub's mean order volume on promotion and non-promotion observations for weekday $d$. The paired hub-level contrast is $D_h=\Delta_{h,\mathrm{Mon}}-\Delta_{h,\mathrm{Fri}}$. The null is $H_0:\mathbb{E}[D_h]=0$; the two-sided alternative is $H_1:\mathbb{E}[D_h]\ne0$. We use a paired $t$-test across 1,115 hubs with all four groups represented.
 
-\textbf{Result.} The mean paired contrast is $+2{,}168.77$ orders (95\% CI $[2{,}103.14,\ 2{,}234.39]$), $t=64.84$, $p<0.001$; Holm-adjusted $p<0.001$. The standardized paired effect size is 1.94. The positive contrast means that the promotion-associated difference is larger on Mondays than Fridays in this sample.
+\textbf{Result.} The mean paired contrast is $+2{,}168.77$ orders (95\% CI $[2{,}103.14,\ 2{,}234.39]$), $t(1114)=64.84$, $p<0.001$; Holm-adjusted $p<0.001$. The standardized paired effect size is 1.94. The positive contrast means that the promotion-associated difference is larger on Mondays than Fridays in this sample. Its confidence interval exceeds the exploratory 350-order importance benchmark. The paired $t$-test is primary because the estimand is a mean in orders, whereas Wilcoxon tests the signed-rank location; Wilcoxon gives $p<0.001$ as a sensitivity check. Shared calendar shocks across hubs remain a concern; the independently reproduced date-level HAC sensitivity analysis is reported below. It supports a positive association, but neither estimate establishes a causal effect.
 
-\textbf{Alternative and caveat.} A hub fixed-effects model was fitted as a sensitivity analysis, with standard errors clustered by hub. Its Monday-by-promotion interaction was $+2{,}030.74$ orders (95\% CI $[1{,}962.95,\ 2{,}098.54]$, $p<0.001$). Date fixed effects cannot separately identify promotion status because all hubs share the same promotion status on each date in the filtered data. The hub fixed-effects model therefore does not control for all date-specific demand shocks. Promotion may coincide with other calendar effects, so neither estimate is a causal promotion effect.
+\textbf{Alternative and caveat.} A hub fixed-effects sensitivity model now includes weekday, promotion status, and the Monday-by-promotion interaction with standard errors clustered by hub. \input{t1_verified_results.tex} The earlier misspecified $+2{,}030.74$ estimate is excluded. Since promotion is shared by all hubs on a given date, the promotion terms cannot be separately identified together with unrestricted date fixed effects. Shared date shocks and observational confounding remain concerns.
 
 \subsection{Test 2 (P2): long observation gaps and hub format}
-A long gap is defined by the project's derived indicator in the analysis script. The unit of analysis is one hub ($n=1{,}115$). We test independence between this binary indicator and the four-level hub-format variable. The null is independence; the alternative is association. We use a Pearson chi-square statistic and a Monte Carlo permutation $p$-value (20,000 permutations), because at least one expected contingency-table cell is below five.
+A long gap means at least 100 consecutive absent hub--date observations within the training date range. For hub-format category $f$, the null is $H_0:P(G=1\mid F=1)=P(G=1\mid F=2)=P(G=1\mid F=3)=P(G=1\mid F=4)$; the alternative is that not all four probabilities are equal. The unit of analysis is one hub ($n=1{,}115$). We test independence between this binary indicator and the four-level hub-format variable. The null is independence; the alternative is association. We use a Pearson chi-square statistic and a Monte Carlo permutation $p$-value (20,000 permutations), because at least one expected contingency-table cell is below five.
 
-The observed statistic is $\chi^2=21.42$ with 3 degrees of freedom; Cram\'er's $V=0.139$. The permutation $p$-value is approximately 0.00020 and the Holm-adjusted value is approximately 0.00040. This is evidence of an association between hub format and the long-gap indicator, not evidence that format causes missing observations. The smallest expected cell is 2.74, which is why the permutation result is emphasized over the asymptotic approximation.
+The observed statistic is $\chi^2=21.42$ with 3 degrees of freedom; Cram\'er's $V=0.139$. The permutation $p$-value is approximately 0.00020 and the Holm-adjusted value is approximately 0.00040. This provides evidence of a non-directional association, not that format causes missing observations. The point estimate exceeds the exploratory $V=0.10$ threshold but its CI also allows smaller effects. \input{t2_verified_ci.tex} A standard asymptotic chi-square test was considered but its small expected count weakens its approximation; the permutation version preserves the observed margins and is emphasized instead. Fisher--Freeman--Halton exact inference is another alternative for the $4\times2$ table. The smallest expected cell is 2.74, which is why the permutation result is emphasized over the asymptotic approximation.
 
 \begin{table}[t]
 \centering
@@ -215,18 +225,21 @@ Hub format & No long gap & Long gap\\
 \subsection{Test 3 (P3): competitor distance and mean demand}
 We aggregate to one observation per hub and use Spearman's rank correlation, which tests for a monotonic association without assuming linearity or normally distributed variables. The hypotheses are $H_0:\rho_s=0$ and $H_1:\rho_s\ne0$. Competitor distance is available for 1,112 hubs.
 
-The estimated correlation is $\rho_s=-0.0317$ (95\% bootstrap CI $[-0.0909,\ 0.0296]$), with $p=0.291$ and Holm-adjusted $p=0.291$. The confidence interval includes zero and the estimate is close to zero; this analysis does not provide evidence of a monotonic association. Kendall's $\tau=-0.0193$ ($p=0.336$) gives the same qualitative conclusion. The relationship is descriptive and may be confounded by hub location, format, and other differences.
+The estimated correlation is $\rho_s=-0.0317$ (95\% bootstrap CI $[-0.0909,\ 0.0296]$), with $p=0.291$ and Holm-adjusted $p=0.291$. The confidence interval includes zero and the estimate is close to zero; this analysis does not provide evidence of a monotonic association. The entire interval lies inside the exploratory $|\rho_s|=0.10$ relevance benchmark. Spearman's rank coefficient ($-0.0317$) is itself the test statistic (no ordinary paired-$t$ degrees of freedom). Pearson correlation was considered but not preferred because distance and demand are skewed and a linear relationship was not assumed. Kendall's $\tau=-0.0193$ ($p=0.336$) gives the same qualitative conclusion. The relationship is descriptive and may be confounded by hub location, format, and other differences.
 
 \subsection{Test 4 (P4): demand around competitor opening}
+\textbf{Hypotheses.} Let $D_h$ be a hub's mean post-opening orders minus mean pre-opening orders. $\Hnull:E[D_h]=0$ versus two-sided $\Halt:E[D_h]\ne0$. The unit of analysis is one paired hub; unlike an unpaired test, this controls for each hub's fixed demand level. A Wilcoxon signed-rank test is reported as a nonparametric sensitivity analysis, but the paired $t$-test directly estimates the mean difference in orders.
+
 We compare each eligible hub's mean order volume in a pre-opening window with its mean in a post-opening window, using a paired $t$-test. The opening date is approximated as the 15th day of the month recorded in metadata. For the primary specification, the pre-window spans 105 to 15 days before that date and the post-window spans 15 to 105 days after it. Hubs must have at least 30 operating-day observations in each window, and both windows must fall within the training period. The resulting paired sample contains 120 hubs.
 
-The mean post-minus-pre difference is $-482.42$ orders (95\% CI $[-650.21,\ -314.64]$), $t=-5.69$, $p=9.13\times10^{-8}$; Holm-adjusted $p=2.74\times10^{-7}$. The observed mean is lower in the post-opening window. Since opening dates are approximate and the comparison lacks a contemporaneous control group, the result should not be interpreted as a causal competitor effect.
+The mean post-minus-pre difference is $-482.42$ orders (95\% CI $[-650.21,\ -314.64]$), $t(119)=-5.69$, $p=9.13\times10^{-8}$; Holm-adjusted $p=2.74\times10^{-7}$. The observed mean is lower in the post-opening window. The estimated decrease exceeds the exploratory 350-order benchmark, but the CI $[-650,-315]$ includes smaller decreases; practical importance is therefore uncertain. Since opening dates are approximate and the comparison lacks a contemporaneous control group, the result should not be interpreted as a causal competitor effect.
 
-\begin{table}[t]
+\begin{table}[H]
 \centering
 \caption{Sensitivity analysis for competitor-opening windows}
 \label{tab:sensitivity}
 \scriptsize
+\resizebox{\columnwidth}{!}{%
 \begin{tabular}{rrrrr}
 \toprule
 Outer window & Hubs & Mean diff. & 95\% CI & Wilcoxon $p$\\
@@ -235,7 +248,8 @@ Outer window & Hubs & Mean diff. & 95\% CI & Wilcoxon $p$\\
 105 days & 120 & $-482.42$ & $[-650.21,-314.64]$ & $3.37\mathrm{e}{-7}$\\
 135 days & 112 & $-476.97$ & $[-639.83,-314.10]$ & $4.95\mathrm{e}{-7}$\\
 \bottomrule
-\end{tabular}
+\end{tabular}%
+}
 \end{table}
 
 The negative difference persists under 60-, 90-, and 120-day pre/post spans, and the paired Wilcoxon tests are also significant. This sensitivity supports robustness to the selected window width, but it does not remove confounding or uncertainty in the approximate opening date.
@@ -252,7 +266,7 @@ The negative difference persists under 60-, 90-, and 120-day pre/post spans, and
 
 \section*{Reproducibility}
 Scripts, data-audit outputs, hypothesis-test results, sensitivity analyses, figures, and instructions are maintained in the project repository:
-\url{https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting}.
+\url{https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting/tree/cse558-midterm-2026}.
 The analysis uses the training records and hub metadata described above. All reported numerical results should be regenerated from the scripts in the repository before final submission.
 
 \end{document}

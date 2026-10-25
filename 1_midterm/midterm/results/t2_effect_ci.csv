@@ -1,0 +1,2 @@
+test,n_hubs,chi2,degrees_of_freedom,p_chi2_asymptotic,minimum_expected,cramers_v,ci95_low,ci95_high,ci_method,bootstrap_replicates,seed
+T2_long_gap_vs_hub_format,1115,21.416492641662288,3,8.625811535406498e-05,2.7443946188340806,0.1385915463474581,0.08618669450634335,0.20141474973679144,hub percentile bootstrap from contingency table,5000,20261025

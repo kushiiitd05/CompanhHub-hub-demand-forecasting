@@ -1,0 +1,15 @@
+{
+  "python": "3.13.15",
+  "platform": "Windows-11-10.0.26200-SP0",
+  "packages": {
+    "numpy": "2.5.2",
+    "pandas": "3.0.5",
+    "scipy": "1.18.1",
+    "matplotlib": "3.11.2",
+    "seaborn": "0.13.2",
+    "statsmodels": "0.15.0",
+    "linearmodels": "7.1",
+    "pyarrow": "26.0.0",
+    "pypdf": "6.21.2"
+  }
+}

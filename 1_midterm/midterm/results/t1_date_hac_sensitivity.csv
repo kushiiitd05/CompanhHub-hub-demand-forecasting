@@ -1,0 +1,2 @@
+method,n_dates,n_hubs,n_open_hub_date_rows,hac_lags,interaction_monday_minus_friday_promo,standard_error,ci95_low,ci95_high,p_value,n_mon_promo,n_mon_no_promo,n_fri_promo,n_fri_no_promo,caveat
+date-level hub-centered OLS with Newey-West HAC SE,257,1115,262837,8,2015.0641684660322,239.39020221137167,1545.867993879983,2484.2603430520817,3.846424706614398e-17,69,59,69,60,Date-level observational sensitivity; potential secular time and seasonality confounding remains.

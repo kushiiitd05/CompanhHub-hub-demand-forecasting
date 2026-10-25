@@ -18,3 +18,10 @@ artifacts/kaggle_upload_pkg.zip
 .kaggle/
 kaggle.json
 access_token
+
+# midterm build outputs
+1_midterm/SUBMIT_TO_CLASSROOM/
+1_midterm/midterm/submission/
+*.aux
+*.log
+*.out

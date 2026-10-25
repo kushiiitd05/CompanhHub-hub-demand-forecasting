@@ -1,0 +1,9 @@
+Team — this is the ONE final CSE558 handoff ZIP. Do not upload the large 794 MB repository or any correction package.
+
+1) Extract the ZIP. Open project/midterm/member_contributions.csv; replace REPLACE_ME for all five students with their REAL contributions. Confirm names and IDs.
+2) Double-click DOUBLE_CLICK_TO_FINISH.bat (or run python FINISH_AND_PACKAGE.py from the extracted folder). This creates SUBMIT_TO_CLASSROOM/CSE558_Final_Report.pdf and CSE558_Code_And_Readme.zip. If the script fails, follow 01_START_HERE_TEAM.md. If pdflatex is missing, use the Overleaf fallback there.
+3) Open the new PDF, confirm it is <=8 pages and all four plots render; check page 4 table and page 1 contributions. Confirm report styling against the official LaTeX template.
+4) One member with repository write access must push the updated midterm report/code/README to the cse558-midterm-2026 branch (steps in 02_GITHUB_AND_CLASSROOM.md). Check the branch link from an incognito browser.
+5) Upload the FINAL PDF to Classroom, and the code ZIP / scripts as the assignment instructions allow. Submit before 27 OCTOBER 2026, 11:59 PM.
+
+The statistics were independently verified using the original CSVs. The only remaining human tasks are truthful contributions, final compilation/visual check, GitHub update and Classroom submission.

@@ -40,7 +40,9 @@ df["LoyaltyHistoryMissing"] = (
 binary_cols = [
     "IsOpen",
     "PromoActive",
-    "RegionalHoliday",
+    # RegionalHoliday has multiple coded levels, not a binary indicator.
+    # It remains in the numeric-code representation in this analysis,
+    # and is not used as a response regressor in the four tests.
     "SchoolClosureFlag",
     "LoyaltyProgram",
 ]

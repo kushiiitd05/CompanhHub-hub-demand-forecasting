@@ -250,14 +250,10 @@ perm_stats = np.empty(N_PERMUTATIONS)
 
 for i in range(N_PERMUTATIONS):
     shuffled = RNG.permutation(gap_labels)
-    perm_table = pd.crosstab(formats, shuffled).reindex(
-        index=contingency.index,
-        columns=[False, True],
-        fill_value=0
-    )
-    perm_stats[i] = stats.chi2_contingency(
-        perm_table, correction=False
-    )[0]
+    # Retain exact hub-format categories and the 2-column observed margin.
+    perm_table = np.zeros_like(contingency.to_numpy(), dtype=np.int64)
+    np.add.at(perm_table, (pd.Categorical(formats, categories=contingency.index).codes, shuffled.astype(int)), 1)
+    perm_stats[i] = stats.chi2_contingency(perm_table, correction=False)[0]
 
 chi_p_permutation = (
     1 + np.sum(perm_stats >= chi2)
@@ -273,13 +269,30 @@ cramers_v = (
 )
 min_expected = float(expected.min()) if expected.size else np.nan
 
+# 95% percentile bootstrap CI for Cramer's V, resampling hubs.
+# The effect-size CI complements (does not replace) the permutation p-value.
+t2_boot_rng = np.random.default_rng(20261025)
+t2_format_codes = pd.Categorical(t2_data["HubFormat"],
+                                  categories=contingency.index).codes
+t2_gap_codes = t2_data["LongGap100Days"].astype(int).to_numpy()
+t2_boot_effects = []
+for _ in range(5000):
+    ix = t2_boot_rng.integers(0, n_t2, size=n_t2)
+    tab = np.zeros(contingency.shape, dtype=int)
+    np.add.at(tab, (t2_format_codes[ix], t2_gap_codes[ix]), 1)
+    if np.any(tab.sum(axis=0) == 0) or np.any(tab.sum(axis=1) == 0):
+        continue
+    chi_boot = stats.chi2_contingency(tab, correction=False)[0]
+    t2_boot_effects.append(np.sqrt(chi_boot / n_t2))
+t2_ci_low, t2_ci_high = np.quantile(t2_boot_effects, [0.025, 0.975])
+
 t2 = {
     "test": "T2_long_gap_vs_hub_format",
     "method": "Pearson chi-square statistic with Monte Carlo permutation p-value",
     "n_units": n_t2,
     "effect_estimate": cramers_v,
-    "ci95_low": np.nan,
-    "ci95_high": np.nan,
+    "ci95_low": float(t2_ci_low),
+    "ci95_high": float(t2_ci_high),
     "effect_size": cramers_v,
     "statistic": float(chi2),
     "p_raw": float(chi_p_permutation),
@@ -355,7 +368,7 @@ t3 = {
     "ci95_low": float(rho_low),
     "ci95_high": float(rho_high),
     "effect_size": float(rho),
-    "statistic": np.nan,
+    "statistic": float(rho),
     "p_raw": float(rho_p),
     "notes": (
         f"Bootstrap CI resamples hubs. Kendall sensitivity tau={tau:.6f}, "

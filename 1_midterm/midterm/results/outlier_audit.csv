@@ -1,0 +1,2 @@
+n_raw_rows,n_open_rows,open_q1,open_q3,open_iqr,lower_fence,upper_fence,n_outside_iqr_fences,pct_outside_iqr_fences,open_zero_order_rows,negative_order_rows,min_open,max_open,n_removed_by_outlier_policy,policy
+970379,804110,4856.0,8360.0,3504.0,-400.0,13616.0,29307,3.6446506075039484,54,0,0,38722,0,"retain extremes; outlier fences descriptive, not automatic deletion"

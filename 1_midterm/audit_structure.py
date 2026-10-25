@@ -64,7 +64,7 @@ print(
 
 # Check consistency of recorded weekday values across dates.
 weekday_check = (
-    orders.assign(DateWeekday=orders["Date"].dt.dayofweek)
+    orders.assign(DateWeekday=orders["Date"].dt.dayofweek + 1)
     .groupby("Date")
     .apply(
         lambda g: (g["Weekday"] == g["DateWeekday"]).all(),

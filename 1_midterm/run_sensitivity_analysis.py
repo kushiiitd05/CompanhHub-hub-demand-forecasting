@@ -63,113 +63,8 @@ def ci_mean(values):
 # Standard errors are clustered by HubID.
 # ============================================================
 
-print("Running T1 two-way fixed-effects sensitivity...")
-
-t1data = open_orders.loc[
-    open_orders["Weekday"].isin([1, 5]),
-    ["HubID", "Date", "OrderVolume", "PromoActive", "Weekday"]
-].copy()
-
-t1data["Monday"] = (t1data["Weekday"] == 1).astype(float)
-t1data["PromoActive"] = t1data["PromoActive"].astype(float)
-t1data["PromoMonday"] = t1data["PromoActive"] * t1data["Monday"]
-
-# Keep only dates and hubs with usable observations.
-# No missing hub-date records are filled with zeros.
-cols = ["OrderVolume", "PromoActive", "PromoMonday"]
-t1data = t1data.dropna(
-    subset=["HubID", "Date"] + cols
-).reset_index(drop=True)
-
-# Alternating projections to remove hub and date means.
-# This absorbs the two fixed effects without constructing a
-# massive dense dummy-variable matrix.
-work = t1data[["HubID", "Date"] + cols].copy()
-original = work[cols].to_numpy(dtype=float)
-transformed = original.copy()
-
-hub_codes = pd.factorize(work["HubID"])[0]
-date_codes = pd.factorize(work["Date"])[0]
-
-
-def group_demean(matrix, codes):
-    """Subtract group means from each column."""
-    out = matrix.copy()
-    frame = pd.DataFrame(out)
-    means = frame.groupby(codes, sort=False).transform("mean")
-    return out - means.to_numpy()
-
-
-for iteration in range(200):
-    previous = transformed.copy()
-    transformed = group_demean(transformed, hub_codes)
-    transformed = group_demean(transformed, date_codes)
-
-    max_change = np.max(np.abs(transformed - previous))
-    if max_change < 1e-8:
-        break
-
-# Dependent variable and two identified regressors.
-y = transformed[:, 0]
-X = transformed[:, [1, 2]]
-X = sm.add_constant(X, has_constant="add")
-
-model = sm.OLS(y, X).fit(
-    cov_type="cluster",
-    cov_kwds={"groups": hub_codes, "use_correction": True},
-    use_t=True,
-)
-
-coef = float(model.params[2])
-se = float(model.bse[2])
-p_value = float(model.pvalues[2])
-ci_low = float(model.conf_int(alpha=ALPHA)[2, 0])
-ci_high = float(model.conf_int(alpha=ALPHA)[2, 1])
-
-# Baseline paired hub-level difference for comparison.
-means = (
-    t1data.groupby(["HubID", "Weekday", "PromoActive"])["OrderVolume"]
-    .mean()
-    .unstack(["Weekday", "PromoActive"])
-)
-
-needed = [(1, 0), (1, 1), (5, 0), (5, 1)]
-if all(c in means.columns for c in needed):
-    monday_lift = means[(1, 1)] - means[(1, 0)]
-    friday_lift = means[(5, 1)] - means[(5, 0)]
-    paired = (monday_lift - friday_lift).dropna()
-    paired_mean = float(paired.mean())
-    paired_low, paired_high = ci_mean(paired)
-else:
-    paired_mean = paired_low = paired_high = np.nan
-
-t1_output = pd.DataFrame([{
-    "analysis": "T1_calendar_adjusted_fixed_effects",
-    "n_rows": len(t1data),
-    "n_hubs": t1data["HubID"].nunique(),
-    "n_dates": t1data["Date"].nunique(),
-    "estimate_monday_vs_friday_promotion_difference": coef,
-    "clustered_se": se,
-    "ci95_low": ci_low,
-    "ci95_high": ci_high,
-    "p_value": p_value,
-    "paired_unadjusted_estimate": paired_mean,
-    "paired_unadjusted_ci95_low": paired_low,
-    "paired_unadjusted_ci95_high": paired_high,
-    "iterations_for_demeaning": iteration + 1,
-    "notes": (
-        "Hub and calendar-date fixed effects; SE clustered by hub. "
-        "Observational association, not a causal estimate."
-    ),
-}])
-
-t1_output.to_csv(
-    OUT_DIR / "t1_calendar_adjusted_sensitivity.csv", index=False
-)
-
-print("\nT1 fixed-effects result:")
-print(t1_output.to_string(index=False))
-
+print("Skipping non-identifiable two-way T1 FE specification. "
+      "Use run_t1_fixed_effects.py and t1_date_robustness.py instead.")
 
 # ============================================================
 # T4 SENSITIVITY:
@@ -326,6 +221,6 @@ print("\nT4 event-window sensitivity:")
 print(t4_output.to_string(index=False))
 
 print("\nSaved:")
-print(OUT_DIR / "t1_calendar_adjusted_sensitivity.csv")
+
 print(OUT_DIR / "t4_event_window_sensitivity.csv")
 print("Per-window hub-level details: t4_event_window_detail_*d.csv")

@@ -33,7 +33,7 @@ df["PromoMonday"] = df["PromoActive"] * df["Monday"]
 # Hub fixed effects only.
 # Cluster standard errors by hub to account for within-hub dependence.
 y = df["OrderVolume"]
-X = df[["PromoActive", "PromoMonday"]]
+X = df[["Monday", "PromoActive", "PromoMonday"]]
 absorb = pd.DataFrame({
     "HubID": pd.Categorical(df["HubID"])
 })
@@ -65,7 +65,7 @@ output = pd.DataFrame([{
 }])
 
 output.to_csv(
-    OUT_DIR / "t1_calendar_adjusted_sensitivity.csv",
+    OUT_DIR / "t1_hub_fe_corrected_sensitivity.csv",
     index=False,
 )
 
@@ -73,4 +73,4 @@ print("=== T1 HUB-FIXED-EFFECTS SENSITIVITY ===")
 print(output.to_string(index=False))
 print("\nModel summary:")
 print(result.summary)
-print("\nSaved:", OUT_DIR / "t1_calendar_adjusted_sensitivity.csv")
+print("\nSaved:", OUT_DIR / "t1_hub_fe_corrected_sensitivity.csv")
