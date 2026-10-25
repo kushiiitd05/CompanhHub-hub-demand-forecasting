@@ -149,7 +149,7 @@ the \emph{hub} as its independent unit (Section 5).}
 
 \minihead{Key features}
 {\footnotesize
-\begin{tabularx}{\linewidth}{@{}L{2.25cm} L{1.45cm} Y@{}}
+\begin{tabularx}{\linewidth}{@{}L{3.25cm} L{1.35cm} Y@{}}
 \toprule
 \textbf{Feature} & \textbf{Type} & \textbf{Real-world meaning (verified facts)} \\
 \midrule
@@ -159,11 +159,11 @@ the \emph{hub} as its independent unit (Section 5).}
 \code{IsOpen} & nominal & hub open that day (82.87\% of rows) \\
 \code{PromoActive} & nominal & promotion running (38.27\%); set per date, identical for all hubs, in alternate
   Monday--Friday weeks, never at weekends \\
-\code{Weekday} & ordinal, cyclic & 1 = Monday \dots\ 7 = Sunday; matches \code{Date} in every row \\
+\code{Weekday} & ordinal (cyclic) & 1 = Monday \dots\ 7 = Sunday; matches \code{Date} in every row \\
 \code{RegionalHoliday} & nominal (4) & none, public holiday, Easter, Christmas \\
 \code{HubFormat} & nominal (4) & store format; 602 / 17 / 148 / 348 hubs \\
 \code{CompetitorDistance} & continuous & distance to the nearest competitor (median 2{,}325; 3 hubs missing) \\
-\code{CompetitorOpenSince} & discrete & month and year that competitor opened; unknown for 354 hubs \\
+\code{CompetitorOpenSince}\newline\code{Month, Year} & discrete & month and year that competitor opened; unknown for 354 hubs \\
 \bottomrule
 \end{tabularx}}
 
@@ -305,6 +305,19 @@ same weeks?
 row records: a difference of lifts inside each hub (P1), the pattern of \emph{missing} rows (P2), and a hub's change
 measured against control hubs over the same calendar weeks (P4). P3 aggregates two years to one value per hub.}
 
+\minihead{Train vs test schedule (the test file has no outcome)}
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}Y L{1.0cm} L{1.0cm} L{1.25cm} L{1.0cm}@{}}
+\toprule
+\textbf{Rows} & \textbf{Open} & \textbf{Promo} & \textbf{School closed} & \textbf{Holiday} \\
+\midrule
+Train, all 900 days & 82.9\% & 38.3\% & 17.4\% & 3.2\% \\
+Train, last 42 days & 80.0\% & 35.7\% & 7.5\% & 6.4\% \\
+Train, 20 Jun--31 Jul 2014 & 85.6\% & 34.9\% & 27.6\% & 0.0\% \\
+Test, 20 Jun--31 Jul 2015 & 86.0\% & 35.7\% & 28.5\% & 0.0\% \\
+\bottomrule
+\end{tabularx}}
+
 \field{Two facts that shape the tests.}{(i) Days of one hub are dependent: the median within-hub correlation of
 $\log(1+V)$ is 0.65 at lag~1 and 0.55 at lag~14, but only 0.02 at lag~7, because promotions alternate weekly.
 (ii) The test window is the summer school break (school closure 28.5\% vs 17.4\% overall; 27.6\% in the same weeks of
@@ -358,7 +371,7 @@ Wilcoxon signed-rank, sign test & kept as robustness checks: $p=6.0\times10^{-18
 \end{tabularx}}
 
 \tpart{c}{Result}
-$t=\dfrac{\bar d-0}{s_d/\sqrt n}=\dfrac{0.2691}{0.09932/\sqrt{1115}}=\dfrac{0.2691}{0.002974}=90.47$.
+\[t=\frac{\bar d-0}{s_d/\sqrt n}=\frac{0.2691}{0.09932/\sqrt{1115}}=\frac{0.2691}{0.002974}=90.47.\]
 {\small
 \begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
 \toprule
@@ -416,8 +429,11 @@ $\chi^2$ goodness of fit & compares one variable with fixed shares: the wrong qu
 \end{tabularx}}
 
 \tpart{c}{Result}
-$\chi^2=\sum(O-E)^2/E=21.42$ with $(4-1)(2-1)=3$ d.f.; $\chi^2_{0.95,3}=7.81$. Gap rates: 14.0\%, 5.9\%, 9.5\%,
-23.3\% for formats 1--4.
+\[\chi^2=\sum_{\text{cells}}\frac{(O-E)^2}{E}=21.42,\]
+where $O$ and $E$ are the observed and expected hub counts ($E=$ row total $\times$ column total$/n$), with
+$(4-1)(2-1)=3$ d.f.\ and critical value $\chi^2_{0.95,3}=7.81$. Effect size: Cram\'er's
+$V=\sqrt{\chi^2/(n\cdot\min(4-1,2-1))}=\sqrt{21.42/1115}=0.139$.
+Gap rates are 14.0\%, 5.9\%, 9.5\% and 23.3\% for formats 1--4.
 {\small
 \begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
 \toprule
@@ -469,7 +485,7 @@ Welch $t$, near vs far & a cut-off throws away information and is arbitrary \\
 \end{tabularx}}
 
 \tpart{c}{Result}
-$t=\dfrac{r-0}{\sqrt{(1-r^2)/(n-2)}}=\dfrac{-0.08187}{\sqrt{(1-0.00670)/1110}}=-2.74$.
+\[t=\frac{(r-0)\sqrt{n-2}}{\sqrt{1-r^2}}=\frac{-0.08187\sqrt{1110}}{\sqrt{1-0.00670}}=-2.74.\]
 {\small
 \begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
 \toprule
@@ -526,7 +542,7 @@ Wilcoxon signed-rank on $\text{DiD}_i$ & robustness check (the Q-Q plot shows a 
 \end{tabularx}}
 
 \tpart{c}{Result}
-$t=\dfrac{\overline{\text{DiD}}-0}{s/\sqrt n}=\dfrac{-0.09218}{0.1170/\sqrt{144}}=\dfrac{-0.09218}{0.009752}=-9.45$.
+\[t=\frac{\overline{\text{DiD}}-0}{s/\sqrt n}=\frac{-0.09218}{0.1170/\sqrt{144}}=\frac{-0.09218}{0.009752}=-9.45.\]
 {\small
 \begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
 \toprule
@@ -552,8 +568,19 @@ $p=0.28$. We fail to reject, and the CI lies inside $\pm3\%$: the design does no
 \end{figure}
 
 \minihead{All four tests together}
-Raw $p$-values: T1 $<10^{-300}$, T2 $2.1\times10^{-4}$, T3 $0.0063$, T4 $9.0\times10^{-17}$. All are below the
-Bonferroni level 0.0125, and Holm gives the same four rejections. T3 is the fragile one: it rests on one decile.
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{0.55cm} L{1.75cm} L{1.4cm} Y L{1.25cm}@{}}
+\toprule
+\textbf{Test} & \textbf{Statistic (d.f.)} & \textbf{p} & \textbf{Estimate [95\% CI]} & \textbf{Matters?} \\
+\midrule
+T1 & $t=90.47$ (1{,}114) & $<10^{-300}$ & $+30.9\%$ [30.1, 31.6] & yes \\
+T2 & $\chi^2=21.42$ (3) & $2.1\times10^{-4}$ & $+10.4$ points [5.3, 15.4] & yes \\
+T3 & $t=-2.74$ (1{,}110) & $0.0063$ & $r=-0.082$ [$-0.140$, $-0.023$] & uncertain \\
+T4 & $t=-9.45$ (143) & $9.0\times10^{-17}$ & $-8.8\%$ [$-10.5$, $-7.0$] & yes \\
+\bottomrule
+\end{tabularx}}
+
+All four raw $p$-values are below the Bonferroni level 0.0125, and Holm gives the same four rejections. T3 is the fragile one: it rests on one decile.
 \textbf{What would change our mind:} T1, a week-level interval reaching below 0.05; T3, the closest-decile effect
 vanishing once a measure of shopper density is added; T4, placebo dates producing falls of similar size.
 
