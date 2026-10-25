@@ -4,6 +4,8 @@
 |---|---|
 | `MAX_PLAN_PROMPT.md` | The prompt to paste into the Claude session on the server |
 | `STATUS.md` | Snapshot of everything: repo map, what is merged, what is verified, what is missing |
+| `RESEARCH_PROTOCOL.md` | Full-marks plan: rubric matrix, research agenda, writing guide, Max ↔ Mac review loop |
+| `REVIEW_REQUEST_TEMPLATE.md` | Hand-over form for review |
 | `GAP_ANALYSIS.md` | Report vs requirements, test-quality review, EDA to do, ordered task list |
 | `SESSION_LOG.md` | Append-only log written by the session (`[date] [phase] [action] [result]`) |
 

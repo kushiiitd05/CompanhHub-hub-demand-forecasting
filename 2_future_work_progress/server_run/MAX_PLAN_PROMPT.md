@@ -17,6 +17,7 @@ Read in this order, and print a 10-line summary of what you understood:
 1. `README.md` (repo map) and `docs/INDEX.md` (which file says what)
 2. `2_future_work_progress/server_run/STATUS.md`
 3. `2_future_work_progress/server_run/GAP_ANALYSIS.md`  ← your task list for job 1
+3b. `2_future_work_progress/server_run/RESEARCH_PROTOCOL.md`  ← how to research, write and hand over for review (rubric matrix, research agenda, review loop)
 4. `1_midterm/reference/MASTER_PROMPT_CSE558_Midterm.md`  ← the statistical standards (S1–S11), the data ledger (Q1–Q18), the test menu
 5. `1_midterm/reference/CSE558_Project_Report_Guidelines.pdf` and `..._Template.tex`
 6. `1_midterm/midterm/report/main.tex`, `1_midterm/midterm/results/*.csv`, `1_midterm/midterm/README.md`
@@ -63,7 +64,8 @@ If a new result contradicts the old report, say so and update the text; do not h
 - Run `validate_midterm.py` → expect 46/46. Add small unit tests for the midterm scripts (key uniqueness, closed rows are zero, T2 table sums to 1,115, encoded shape).
 - Read every page of the PDF. Report remaining risks as a list.
 
-**Phase 1.5: Hand over (user decides).**
+**Phase 1.5: Hand over for review (user decides).** Follow RESEARCH_PROTOCOL.md §5: work on branch `max/midterm-r1`, fill `REVIEW_REQUEST.md`, update STATUS.md and SESSION_LOG.md.
+
 Prepare, but do not execute without "go": the commit set for branch `cse558-midterm-2026`, the Classroom upload checklist (`PDF` + `code zip`), and the incognito link check.
 
 ## JOB 2: IMPROVEMENT WORK (start only when the user says the midterm is submitted)

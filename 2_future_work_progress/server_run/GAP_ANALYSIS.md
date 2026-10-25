@@ -16,7 +16,7 @@ Legend: **P0** must fix before submitting · **P1** strong grade gain · **P2** 
 | R5(b) other tests considered and why not | **Mostly met** | Present for T1–T4 (Wilcoxon, Fisher–Freeman–Halton, Pearson, Welch-style) |
 | R5(c) statistic, **df**, p, decision, estimate + 95% CI, practical verdict | **Partial (P1)** | T3 gives no df/test statistic form; no formula with numbers substituted (S4); no critical values (S7) |
 | R6 code link + README | **Met, but see D** | Branch link in header; branch is stale until pushed |
-| R7 PDF ≤ 8 pp, **given LaTeX template**, 4 h early | **At risk (P0)** | `main.tex` uses its own `article` preamble, not `CSE558_Project_Report_Template.tex`. Compare with the template; the team handoff itself tells members to check this |
+| R7 PDF ≤ 8 pp, **given LaTeX template**, 4 h early | **At risk (P0)** | `main.tex` already matches the template's class, geometry and six sections, but it is not built from the template file (no `\showhints` switch, own header). Diff against `CSE558_Project_Report_Template.tex` and align. Not yet rebuilt: the repo PDF is stale and has `blah` |
 | R8 limitations | **Met** | 6 bullets. Add provenance and test-window shift (see B) |
 
 ## B. Content the master prompt wants that the report lacks

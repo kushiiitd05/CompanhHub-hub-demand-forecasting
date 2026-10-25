@@ -7,6 +7,8 @@
 | `2_future_work_progress/server_run/MAX_PLAN_PROMPT.md` | The prompt for the server (Max-plan) session |
 | `2_future_work_progress/server_run/STATUS.md` | Current state of all work |
 | `2_future_work_progress/server_run/GAP_ANALYSIS.md` | What is missing in the report, test review, task list |
+| `2_future_work_progress/server_run/RESEARCH_PROTOCOL.md` | Full-marks plan: rubric matrix, research agenda, writing guide, review loop |
+| `2_future_work_progress/server_run/REVIEW_REQUEST_TEMPLATE.md` | Hand-over form the Max session fills for Mac review |
 
 ## Layer 1: `1_midterm/` (CSE558 midterm)
 | File | Says |
