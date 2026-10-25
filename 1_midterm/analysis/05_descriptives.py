@@ -112,10 +112,20 @@ def t1_week_level(b: pd.DataFrame) -> pd.DataFrame:
                           "var_ratio": a.var(ddof=1) / n0.var(ddof=1), "levene_p": f.pvalue, "F_df1": len(a) - 1, "F_df2": len(n0) - 1, "F_p_two_sided": pF}])
 
 
+def format_volume(b: pd.DataFrame) -> pd.DataFrame:
+    """Basic question: which format sells most? Hub-level means, then averaged per format."""
+    m = pd.read_csv(DERIVED / "hub_level.csv")[["HubID", "HubFormat"]]
+    hub = b.groupby("HubID")["OrderVolume"].mean().rename("hub_mean").reset_index().merge(m, on="HubID")
+    out = hub.groupby("HubFormat")["hub_mean"].agg(hubs="size", mean_of_hub_means="mean", median_of_hub_means="median").reset_index()
+    sun = b[b["Weekday"].eq(7)]
+    out["note"] = f"Sunday-open rows {len(sun)} at {sun.HubID.nunique()} hubs"
+    return out
+
+
 def main() -> None:
     tr, te, b = load_train(), load_test(), base()
     outs = {"desc_lag_correlations.csv": lag_correlations(b), "desc_schedule_shift.csv": schedule_shift(tr, te),
-            "desc_weekday_lift.csv": weekday_lift(b), "desc_hubs_per_date.csv": hubs_per_date(tr), "desc_reopening.csv": reopening(b), "desc_t1_week_level_posthoc.csv": t1_week_level(b)}
+            "desc_weekday_lift.csv": weekday_lift(b), "desc_hubs_per_date.csv": hubs_per_date(tr), "desc_reopening.csv": reopening(b), "desc_t1_week_level_posthoc.csv": t1_week_level(b), "desc_format_volume.csv": format_volume(b)}
     pd.set_option("display.width", 250, "display.max_columns", 30)
     for name, df in outs.items():
         save(df, name)

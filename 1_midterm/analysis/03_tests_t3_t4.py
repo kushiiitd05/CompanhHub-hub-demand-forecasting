@@ -40,6 +40,11 @@ def run_t3(b: pd.DataFrame, h: pd.DataFrame) -> dict:
         y = b[mask].groupby("HubID")["y"].mean().rename("y_sub")
         dd = d.merge(y, left_on="HubID", right_index=True)
         rows.append({"variant": f"replication: y from {label} rows", **pearson_t(dd["log_distance"].to_numpy(), dd["y_sub"].to_numpy(), T3_DELTA)})
+    X = pd.get_dummies(d["HubFormat"]).astype(float).to_numpy()
+    res = {k: d[k].to_numpy() - X @ np.linalg.lstsq(X, d[k].to_numpy(), rcond=None)[0] for k in ("log_distance", "mean_log1p")}
+    part = pearson_t(res["log_distance"], res["mean_log1p"], T3_DELTA)
+    part["df"], part["note"] = len(d) - 2 - 3, "partial r given format: df = n - 2 - 3; t/p shown use n - 2 (difference negligible)"
+    rows.append({"variant": "partial r controlling for HubFormat", **part})
     for f in sorted(d["HubFormat"].unique()):
         s = d[d["HubFormat"].eq(f)]
         if len(s) > 10:
