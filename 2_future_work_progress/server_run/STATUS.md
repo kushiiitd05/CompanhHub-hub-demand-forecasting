@@ -1,4 +1,22 @@
-# STATUS: where everything stands (snapshot 2026-10-26)
+# STATUS: where everything stands
+
+## Update 2026-10-26 (server session, branch `max/midterm-r1`, local only)
+- **Midterm r1 built:** `1_midterm/midterm/report/main.pdf`, 6 pages, on the official template. The analysis is in
+  `1_midterm/analysis/` (`run_all.py`), the tables in `1_midterm/midterm/results/r1/`, and the README in
+  `1_midterm/README_MIDTERM.md`.
+- **Verified:** 125/125 data facts. Validator 30/31 checks; the only failure is the contribution placeholders. pytest
+  9/9. 576 numbers in the PDF traced to a source.
+- **Open:**
+  - the five members must confirm their contribution lines (`<<CONFIRM: ...>>` in `main.tex`);
+  - review on the Mac;
+  - push to `cse558-midterm-2026` (fast-forward possible);
+  - Classroom upload by 27 Oct 19:00.
+- Everything is described in `REVIEW_REQUEST.md`. **The T3 decision reversed** (now rejects, weak effect); see there.
+- The v0 tools (`validate_midterm.py`, `FINISH_AND_PACKAGE.py`) target the old report and no longer apply.
+
+---
+
+# (previous snapshot) snapshot 2026-10-26, before r1
 
 ## Deadlines
 | What | When |

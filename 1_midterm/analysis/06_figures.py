@@ -23,7 +23,7 @@ plt.rcParams.update({"font.size": 7, "axes.titlesize": 7.5, "axes.labelsize": 7,
 
 
 def save(fig: plt.Figure, name: str) -> None:
-    fig.savefig(FIG / name, bbox_inches="tight", pad_inches=0.02)
+    fig.savefig(FIG / name, bbox_inches="tight", pad_inches=0.02, metadata={"CreationDate": None})
     plt.close(fig)
 
 
