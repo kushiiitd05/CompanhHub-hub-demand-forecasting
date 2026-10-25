@@ -55,7 +55,9 @@ class Paths:
 
     @property
     def raw(self) -> Path:
-        return self.root / "datset_kaggle"
+        local = self.root / "datset_kaggle"
+        shared = self.root.parent / "1_midterm" / "datset_kaggle"
+        return local if local.exists() or not shared.exists() else shared
 
     @property
     def artifacts(self) -> Path:
