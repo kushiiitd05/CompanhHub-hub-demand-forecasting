@@ -1,7 +1,7 @@
 """Stage 2-3: data preparation (ledger Q1-Q18), row waterfall, before/after table.
 
 Pure functions: each takes frames and returns NEW frames; raw frames are never changed.
-Outputs (results/r1/): prep_*.csv; derived/hubday_clean.parquet, derived/hub_level.csv.
+Outputs (results/): prep_*.csv; derived/hubday_clean.parquet, derived/hub_level.csv.
 """
 from __future__ import annotations
 
@@ -269,7 +269,7 @@ def main() -> None:
     print(f"encoded shape {e.shape} -> {e.shape[0]} x {e.shape[1]} = {e.shape[0] * e.shape[1]:,}")
     for name in ["prep_waterfall", "prep_before_after", "prep_integrity_checks", "prep_iqr_vs_hub_size",
                  "prep_robust_z_context", "prep_iqr_context", "prep_second_pass", "prep_long_closures"]:
-        print(f"\n== {name}\n" + pd.read_csv(f"../midterm/results/r1/{name}.csv").to_string(index=False))
+        print(f"\n== {name}\n" + pd.read_csv(f"../results/{name}.csv").to_string(index=False))
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 """Stage 6, part 2: T3 (competitor distance) and T4 (competitor opening, difference-in-differences).
 
-Follows midterm/analysis_plan_r1.md. Writes results/r1/t3_*.csv, t4_*.csv, t3_t4.json.
+Follows docs/analysis_plan_r1.md. Writes results/t3_*.csv, t4_*.csv, t3_t4.json.
 """
 from __future__ import annotations
 

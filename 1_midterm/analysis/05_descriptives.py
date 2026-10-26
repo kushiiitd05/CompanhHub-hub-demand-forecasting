@@ -1,5 +1,5 @@
 """Descriptive evidence (no tests): dependence (S5), schedule shift (Q17), weekday lift profile,
-hubs observed per date, reopening surge. Writes results/r1/desc_*.csv.
+hubs observed per date, reopening surge. Writes results/desc_*.csv.
 """
 from __future__ import annotations
 

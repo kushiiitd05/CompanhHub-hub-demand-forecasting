@@ -1,6 +1,6 @@
 """Stage 6, part 1: T1 (promo lift Monday vs Friday) and T2 (data gap vs hub format).
 
-Follows midterm/analysis_plan_r1.md exactly. Writes results/r1/t1_*.csv, t2_*.csv, t1.json, t2.json.
+Follows docs/analysis_plan_r1.md exactly. Writes results/t1_*.csv, t2_*.csv, t1.json, t2.json.
 """
 from __future__ import annotations
 

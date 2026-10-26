@@ -11,10 +11,10 @@ import numpy as np
 import pandas as pd
 
 ROOT = Path(__file__).resolve().parents[1]          # 1_midterm/
-DATA = ROOT / "datset_kaggle"
-OUT = ROOT / "midterm" / "results" / "r1"
-FIG = ROOT / "midterm" / "figures" / "r1"
-DERIVED = ROOT / "midterm" / "results" / "r1" / "derived"   # git-ignored, large
+DATA = ROOT / "data" / "raw"
+OUT = ROOT / "results"
+FIG = ROOT / "figures"
+DERIVED = ROOT / "results" / "derived"   # git-ignored, large
 for _d in (OUT, FIG, DERIVED):
     _d.mkdir(parents=True, exist_ok=True)
 

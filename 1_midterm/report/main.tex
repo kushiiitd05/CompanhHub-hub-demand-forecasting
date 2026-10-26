@@ -1,0 +1,612 @@
+%=======================================================================
+%  CSE558 Data Science - Midterm Project Report (built on the official template)
+%  Monsoon 2026, IIIT-Delhi.  Group DSC 10.
+%  Every number below is produced by 1_midterm/analysis/*.py; see
+%  1_midterm/results/audit_numbers.csv for number -> source file.
+%  Compile with pdfLaTeX, twice.
+%=======================================================================
+\documentclass[10pt,a4paper,twocolumn]{article}
+
+%========================= EDIT THIS =========================
+\newcommand{\projecttitle}{Promotion timing, missing data and competitors:
+  four hypothesis tests on 1{,}115 retail hubs}
+\newif\ifshowhints
+\showhintsfalse      % \showhintsfalse hides every grey instruction line
+%=============================================================
+
+%-------------------------------------------- fonts (no need to edit)
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \IfFileExists{carlito.sty}%
+    {\usepackage[sfdefault]{carlito}}%              Calibri look
+    {\usepackage[scaled=0.92]{helvet}\renewcommand{\familydefault}{\sfdefault}}%
+  \usepackage{courier}
+\else
+  \usepackage[no-math]{fontspec}
+  \setmainfont{Carlito}[Extension=.ttf, UprightFont=*-Regular, BoldFont=*-Bold,
+    ItalicFont=*-Italic, BoldItalicFont=*-BoldItalic]
+\fi
+
+%----------------------------------------------------------- packages
+\usepackage[margin=18mm,bottom=20mm,columnsep=7mm]{geometry}
+\usepackage{amsmath}
+\usepackage{xcolor}
+\usepackage{graphicx}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{titlesec}
+\usepackage{needspace}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={\projecttitle},
+            pdfsubject={CSE558 Data Science, Monsoon 2026: Midterm Project Report}}
+
+%------------------------------------------------------------- layout
+\definecolor{eg}{HTML}{7396C4}         % worked example (light blue)
+\definecolor{hintgrey}{gray}{0.58}     % instructions (light grey)
+\definecolor{keyblue}{HTML}{0B5FA5}   % key values and headings (colour-blind safe pair)
+\definecolor{warnor}{HTML}{C2410C}    % caveats and fragile results
+
+\titleformat{\section}{\normalfont\large\bfseries\color{keyblue}}{\thesection.}{0.5em}{}
+\titlespacing*{\section}{0pt}{12pt}{3pt}
+\titleformat{\subsection}{\normalfont\normalsize\bfseries\color{keyblue}}{\thesubsection}{0.5em}{}
+\titlespacing*{\subsection}{0pt}{10pt}{2pt}
+\newcommand{\sectionbreak}{\needspace{10\baselineskip}}
+\newcommand{\subsectionbreak}{\needspace{10\baselineskip}}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{4pt}
+\setlist{leftmargin=1.2em, itemsep=2pt, topsep=2pt, parsep=0pt}
+\renewcommand{\arraystretch}{1.25}
+\setlength{\tabcolsep}{4pt}
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcolumntype{K}[1]{>{\raggedright\arraybackslash\bfseries\boldmath}p{#1}}  % bold labels
+
+%--------------------------------------------------------- shorthands
+\newcommand{\hint}[1]{\ifshowhints{\footnotesize\itshape\color{hintgrey}#1\par}\fi}
+\newcommand{\key}[1]{\textbf{\textcolor{keyblue}{#1}}}
+\newcommand{\warn}[1]{\textbf{\textcolor{warnor}{#1}}}
+\newcommand{\field}[2]{\key{#1}~#2\par}
+\newcommand{\tpart}[2]{\par\needspace{12\baselineskip}\smallskip\key{#1)~#2}\par}
+\newcommand{\minihead}[1]{\par\needspace{8\baselineskip}\smallskip\key{#1}\par}
+\newcommand{\code}[1]{\texttt{#1}}
+\newcommand{\figfile}[2]{%
+  \IfFileExists{#1}%
+    {\includegraphics[width=\linewidth,height=#2,keepaspectratio]{#1}}%
+    {\fbox{\parbox[c][#2][c]{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}%
+      {\centering\small\itshape\color{hintgrey}Your plot: \detokenize{#1}}}}}
+\newcommand{\FIG}{../figures/}
+
+%=======================================================================
+\begin{document}
+
+\twocolumn[%
+{\small\bfseries CSE558 Data Science\ \ \textbullet\ \ Midterm Project Report\ \ \textbullet\ \ Monsoon 2026\par}
+\vspace{4pt}
+{\LARGE\bfseries\raggedright\projecttitle\par}
+\vspace{6pt}
+\rule{\linewidth}{1pt}
+
+{\small
+\begin{tabularx}{\linewidth}{@{}K{2.4cm} Y@{}}
+\toprule
+Group name & DSC 10 \\
+Dataset & Shadow Hub database (training, test and hub files, 1{,}115 hubs):
+  \url{https://github.com/kushiiitd05/ShadowDsc10-ShadowHub/tree/cse558-midterm-2026/1_midterm/data/raw} \\
+Code & \url{https://github.com/kushiiitd05/ShadowDsc10-ShadowHub/tree/cse558-midterm-2026}
+  (scripts in \code{1\_midterm/analysis/}, README in \code{1\_midterm/README.md}) \\
+\bottomrule
+\end{tabularx}}
+
+\vspace{2pt}
+{\small
+\begin{tabularx}{\linewidth}{@{}L{0.5cm} L{3.4cm} L{2.3cm} L{4.8cm} Y@{}}
+\toprule
+\textbf{\#} & \textbf{Name} & \textbf{Roll no.} & \textbf{Institute email} & \textbf{Contribution} \\
+\midrule
+1 & Manya Chaturvedi & 2023312 & manya23312@iiitd.ac.in & <<CONFIRM: Dataset and size check (1)>> \\
+2 & Kush Tokas & 2023296 & Kush23296@iiitd.ac.in & <<CONFIRM: Preparation, before and after (2, 3)>> \\
+3 & Akash Adur & 2024053 & akash24053@iiitd.ac.in & <<CONFIRM: EDA and problem statements (4)>> \\
+4 & Anusha Rana & 2023114 & anusha23114@iiitd.ac.in & <<CONFIRM: Tests 1 and 2 (5)>> \\
+5 & Sanjeev & 2023483 & sanjeev23483@iiitd.ac.in & <<CONFIRM: Tests 3 and 4, limitations, code and README (5, 6)>> \\
+\bottomrule
+\end{tabularx}}
+\vspace{10pt}
+]
+
+%-----------------------------------------------------------------------
+\section{Dataset}
+
+\field{Source:}{the training, test and hub files of the Shadow Hub database, which our group received through a private
+data-science competition; the files are in our repository (link above). One row of \code{orders\_train.csv} is one retail hub
+on one calendar day, 1~January~2013 to 19~June~2015 (900 dates, 1{,}115 hubs). \code{hub\_metadata.csv} has one row per hub.
+\code{orders\_test.csv} (20~June to 31~July~2015) has no outcome, so it is used only to describe the schedule.}
+
+\field{Provenance:}{the files match the public Rossmann Store Sales data with renamed columns. Evidence:
+1{,}115 hubs; $970{,}379+46{,}830=1{,}017{,}209$ rows, Rossmann's training size; hub~1 (format~3, tier~1,
+competitor distance 1{,}270, competitor since September 2008, no loyalty programme) and hub~2 (loyalty since week 13
+of 2010, months ``Jan,Apr,Jul,Oct'') reproduce Rossmann stores~1 and~2; and the same 180 hubs are missing from
+1~July to 31~December~2014.}
+
+{\small
+\begin{tabularx}{\linewidth}{@{}L{3.0cm} Y Y@{}}
+\toprule
+ & \textbf{Raw file} & \textbf{After encoding} \\
+\midrule
+Instances (rows) & 970{,}379 & 970{,}379 \\
+Attributes (columns) & 9 (+ 9 hub fields) & 46 \\
+Instances $\times$ attributes & 8{,}733{,}411 & \key{44{,}637{,}434} \\
+\bottomrule
+\end{tabularx}}
+
+\field{Size check:}{\key{$970{,}379\times46=44{,}637{,}434\ge3{,}000{,}000$}; the raw file alone gives
+$970{,}379\times9=8{,}733{,}411$. The 46 attributes are: \code{HubID}; 4 calendar fields from \code{Date};
+one-hot \code{Weekday} (7), \code{RegionalHoliday} (4), \code{HubFormat} (4) and loyalty interval (4, incl.\ ``None'');
+14 numeric or binary fields; and 8 data-quality flags (Section 2). Rows are counted as hub-days, but every test uses
+the \emph{hub} as its independent unit (Section 5).}
+
+\minihead{Key features}
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{3.25cm} L{1.35cm} Y@{}}
+\toprule
+\textbf{Feature} & \textbf{Type} & \textbf{Real-world meaning (verified facts)} \\
+\midrule
+\code{OrderVolume} & discrete & \key{response}: the hub's daily volume, \emph{units unstated}. Median volume per app
+  session is 9.23 on open days, which is implausible for a count of orders \\
+\code{AppSessions} & discrete & app sessions (traffic); Pearson $r=0.825$ with volume on open days \\
+\code{IsOpen} & nominal & hub open that day (82.87\% of rows) \\
+\code{PromoActive} & nominal & promotion running (38.27\%); set per date, identical for all hubs, in alternate
+  Monday--Friday weeks, never at weekends \\
+\code{Weekday} & ordinal (cyclic) & 1 = Monday \dots\ 7 = Sunday; matches \code{Date} in every row \\
+\code{RegionalHoliday} & nominal (4) & none, public holiday, Easter, Christmas \\
+\code{HubFormat} & nominal (4) & store format; 602 / 17 / 148 / 348 hubs \\
+\code{CompetitorDistance} & continuous & distance to the nearest competitor (median 2{,}325; 3 hubs missing) \\
+\code{CompetitorOpenSince}\newline\code{Month, Year} & discrete & month and year that competitor opened; unknown for 354 hubs \\
+\bottomrule
+\end{tabularx}}
+
+%-----------------------------------------------------------------------
+\section{Data preparation}
+
+No raw value was overwritten; every step adds a flag or a new column, so each choice can be undone.
+``Why not'' names the alternative we rejected.
+
+{\scriptsize
+\renewcommand{\arraystretch}{1.12}
+\begin{tabularx}{\linewidth}{@{}L{2.05cm} L{2.0cm} Y@{}}
+\toprule
+\textbf{Issue found} & \textbf{What we did} & \textbf{Why, and not the alternative} \\
+\midrule
+\key{33{,}121} absent hub-dates: 180 hubs $\times$ 184 days (2014-H2) + hub 988 on 2013-01-01
+ & left absent; flag \code{gap\_hub}; tested in T2
+ & a systematic block, not random gaps. Zero-filling would invent 33{,}121 closures; mean, median, kNN or regression
+   imputation would invent 2014-H2 sales for exactly the hubs that T2 shows are not a random subset \\
+\key{166{,}269} closed rows, all with volume 0 and sessions 0
+ & kept, excluded from volume tests
+ & structural zeros, neither missing nor outliers; mixing ``is it open?'' with ``how much?'' gives a two-humped mixture \\
+54 open rows with volume 0 (41 hubs)
+ & flag \code{open\_zero}; excluded; listed in README
+ & an open day with no activity is inconsistent. MLE $\hat p=54/804{,}110=6.7\times10^{-5}$ (Wilson 95\% CI
+   $5.1\times10^{-5}$ to $8.8\times10^{-5}$), so dropping them cannot move any estimate \\
+Pooled IQR fence (Q1 4{,}856, Q3 8{,}360, fence 13{,}616) flags \key{29{,}307} rows (3.64\%)
+ & not deleted; tests use $\log(1+V)$ and per-hub contrasts
+ & \key{88.3\%} of these rows belong to the 189 hubs whose \emph{own} median exceeds Q3: the fence measures hub size,
+   not error. Trimming or winsorising would cut big hubs' ordinary days \\
+Per-hub robust $z$ (median/MAD, $|z|>3.5$): 6{,}220 rows, 1{,}040 hubs
+ & kept as genuine demand
+ & 97.0\% sit next to a closure (63.2\%), before Christmas (17.5\%), on or next to a holiday (11.1\%), on promo
+   (4.2\%) or after a reopening (1.1\%). The maximum, 38{,}722 (hub 262), is Good Friday 2015 with a promotion \\
+Normal ``3$\sigma$'' rule
+ & not used
+ & $|z|\ge3$ holds for 1.59\% of open days against 0.27\% under normality (kurtosis 7.84); the distribution-free
+   Chebyshev bound (11.1\%) holds, but a normal cut-off would mislabel real peaks \\
+88 closure runs $\ge5$ days at 85 hubs (longest 185)
+ & flags \code{long\_closure}, 14-day \code{reopen\_window}
+ & refurbishment-like; volume in the 14 days after reopening is 44\% above the 28 days before closing, so reopen days
+   are excluded in a sensitivity rerun \\
+Volume/session ratio: median 9.23, max 64.96 (hub 897: 16{,}954 / 261); 23 rows $>30$
+ & flag \code{ratio\_anomaly}; kept
+ & sessions are probably under-recorded; no test uses sessions \\
+Metadata: distance missing (3 hubs); opening date missing (354); year 1900 (hub 815); 1961 (hub 146)
+ & complete-case in T3 ($n=1{,}112$); date left NA + indicator; 1900 $\to$ NA; 1961 kept
+ & imputation would place hubs at invented distances or dates inside the very tests that use them; a 1900 opening
+   means a 115-year-old competitor, a sentinel \\
+Loyalty start/interval NA for 544 hubs
+ & level ``None''
+ & exactly the 544 hubs without the programme: \emph{not applicable}, not missing \\
+Duplicates
+ & none removed
+ & 0 duplicate hub-dates, 0 duplicate rows; 8 hubs form 4 pairs with identical metadata but different daily series, so
+   they are distinct hubs \\
+Integer codes for nominal fields
+ & one-hot; tier as ordinal code; log scale as a new column
+ & codes 1--4 for format would impose a false order and distance \\
+Integrity
+ & checked
+ & last digit of volume ($\ge100$) is uniform, $\chi^2(9)=11.10$, $p=0.27$: no heaping or rounding \\
+\bottomrule
+\end{tabularx}}
+
+%-----------------------------------------------------------------------
+\section{What changed after preparation}
+
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{3.0cm} L{1.55cm} Y@{}}
+\toprule
+\textbf{Measure} & \textbf{Before} & \textbf{After} \\
+\midrule
+Rows / attributes & 970{,}379 / 9 & 970{,}379 / 46 (no row deleted) \\
+Rows that enter the tests & -- & 804{,}056 open rows with volume $>0$ \\
+Missing cells after the hub join & 2{,}075{,}025 & 1{,}591{,}274, of which 970{,}366 are \emph{not applicable} loyalty fields \\
+Skewness of open-day volume & 1.59 (raw) & $-0.11$ on $\log(1+V)$ \\
+Kurtosis (normal $=3$) & 7.84 (raw) & 3.65 on $\log(1+V)$ \\
+Flagged rows & -- & open-zero 54; ratio 23; long closure 1{,}898; reopen window 1{,}218 \\
+Second outlier pass (robust $z$ on $\log(1+V)$) & -- & 2{,}645 rows (2{,}060 low, 585 high); 1{,}870 explained by holiday, closure, reopening or pre-Christmas; the rest kept \\
+\bottomrule
+\end{tabularx}}
+
+\key{Nothing was deleted:} preparation turned silent problems into flags, and each test states which flags it excludes. The
+log scale removes most of the skew and the excess kurtosis, which is why every test uses it. The second outlier pass,
+run after the fixes as Lecture~3 asks, mostly flags \emph{low} days next to closures and holidays, so it does not justify
+any further deletion.
+
+%-----------------------------------------------------------------------
+\section{Basic questions and problem statement}
+
+\begin{figure}[!ht]
+  \figfile{\FIG fig_volume.pdf}{3.6cm}
+  \caption{Open-day volume is right-skewed (skewness 1.59, kurtosis 7.84); on $\log(1+V)$ it is nearly symmetric
+  ($-0.11$, 3.65), \key{so all tests use the log scale}.}
+\end{figure}
+
+\begin{figure}[!ht]
+  \figfile{\FIG fig_gap.pdf}{3.1cm}
+  \caption{\key{180 of 1{,}115 hubs (16.1\%)} have no rows at all in 2014-H2; \key{format~4 loses 23.3\%} of its hubs (Wilson 95\%
+  CIs; hubs per format in brackets).}
+\end{figure}
+
+\begin{figure}[!ht]
+  \figfile{\FIG fig_promo_weekday.pdf}{2.9cm}
+  \caption{The promotion lift \key{falls through the week, from 60\% on Monday to 22\% on Friday} (mean of 1{,}115 hub-level
+  lifts; 95\% CIs are shorter than the dots).}
+\end{figure}
+
+\begin{figure}[!ht]
+  \figfile{\FIG fig_distance.pdf}{3.4cm}
+  \caption{Hub volume is flat in competitor distance except in the closest decile (distance $\le250$), whose 122 hubs
+  \key{sell 15.9\% more} than the rest.}
+\end{figure}
+
+\minihead{Basic questions}
+\begin{enumerate}[label=\arabic*.]
+  \item Does a promotion raise volume? (Yes: by 22--60\%, depending on the weekday, Figure~3.)
+  \item Which format sells most? (Format~2: its 17 hubs average 10{,}078 per open day; formats 1, 3, 4 average 6{,}816--6{,}919.) Are Sundays different? (Only 33 hubs ever open on Sunday.)
+  \item Do volume and app sessions move together? ($r=0.825$ on open days.)
+\end{enumerate}
+
+\minihead{Our problem statements}
+\noindent\fbox{\begin{minipage}{\dimexpr\linewidth-2\fboxsep-2\fboxrule\relax}
+\key{P1 (primary).} Within the same hub, is the promotion lift on Mondays different from the lift on Fridays?
+
+\smallskip
+\key{P2.} Is the 184-day data gap independent of hub format, i.e.\ is the missingness random?
+
+\smallskip
+\key{P3.} Is the distance to the nearest competitor associated with a hub's typical volume?
+
+\smallskip
+\key{P4.} When a competitor opens, does the hub's volume change relative to hubs with no new competitor over the
+same weeks?
+\end{minipage}}
+
+\field{How they are novel:}{the basic questions read one row or one column at a time. Ours need a contrast that no
+row records: a difference of lifts inside each hub (P1), the pattern of \emph{missing} rows (P2), and a hub's change
+measured against control hubs over the same calendar weeks (P4). P3 aggregates two years to one value per hub.}
+
+\minihead{Train vs test schedule (the test file has no outcome)}
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}Y L{1.0cm} L{1.0cm} L{1.25cm} L{1.0cm}@{}}
+\toprule
+\textbf{Rows} & \textbf{Open} & \textbf{Promo} & \textbf{School closed} & \textbf{Holiday} \\
+\midrule
+Train, all 900 days & 82.9\% & 38.3\% & 17.4\% & 3.2\% \\
+Train, last 42 days & 80.0\% & 35.7\% & 7.5\% & 6.4\% \\
+Train, 20 Jun--31 Jul 2014 & 85.6\% & 34.9\% & 27.6\% & 0.0\% \\
+Test, 20 Jun--31 Jul 2015 & 86.0\% & 35.7\% & 28.5\% & 0.0\% \\
+\bottomrule
+\end{tabularx}}
+
+\field{Two facts that shape the tests.}{(i) Days of one hub are dependent: the median within-hub correlation of
+$\log(1+V)$ is 0.65 at lag~1 and 0.55 at lag~14, but only 0.02 at lag~7, because promotions alternate weekly.
+(ii) The test window is the summer school break (school closure 28.5\% vs 17.4\% overall; 27.6\% in the same weeks of
+2014), so it is seasonal rather than a new regime.}
+
+%-----------------------------------------------------------------------
+\section{Statistical inferences}
+
+\field{Common to all tests.}{$y=\ln(1+\text{OrderVolume})$ on open days with volume $>0$. Because hub-days are
+dependent (Section~4), each test reduces the data to \emph{one number per hub} ($n$ hubs). We write $\bar x$ for a
+sample mean, $s$ for a sample standard deviation (divisor $n-1$), $SE$ for a standard error, $\mu$, $\rho$, $\pi$ for
+population values, and $\delta$ for the smallest difference that matters. Every statistic is $(\text{estimate}-\text{null
+value})/SE$, except $\chi^2$. $\alpha=0.05$. All tests are \textbf{two-sided}: an earlier version of these tests on raw
+volume had already shown the directions, so choosing a side now would be choosing it after seeing the data. We fixed the
+analysis choices in a committed plan (\code{analysis\_plan\_r1.md}) before computing these statistics. With four tests,
+Bonferroni uses $\alpha/4=0.0125$. Every statistic was computed with \code{scipy.stats} and by the formula shown;
+they agree to 4 significant figures. The $\delta$ values are our assumptions, with the reason given.}
+
+%------------------------------------------------------------ Test 1
+\subsection*{Test 1 (P1): is the promotion lift different on Monday and Friday?}
+
+\tpart{a}{Hypotheses, written before running the test}
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+$H_0$ & $\mu_d=0$ \\
+$H_1$ & $\mu_d\neq0$ \\
+Significance level / side & $\alpha=0.05$, two-sided \\
+Test & paired $t$-test (one-sample $t$ on $d_i$) \\
+Smallest difference that matters & $\delta=0.05$ on the log scale ($\approx5\%$ of volume) \\
+\bottomrule
+\end{tabularx}}
+
+For hub $i$, $L_{i,\text{Mon}}=\bar y_{i,\text{Mon,promo}}-\bar y_{i,\text{Mon,no promo}}$ and likewise $L_{i,\text{Fri}}$,
+on open, non-holiday days outside reopening windows (each of the 4 cells $\ge4$ days); $d_i=L_{i,\text{Mon}}-L_{i,\text{Fri}}$
+and $\mu_d$ is its population mean. $e^{d}$ is the ratio of the Monday promotion multiplier ($e^{L_{i,\text{Mon}}}$) to the Friday one, so $e^{d}-1$ is how much larger the Monday gain is. $\delta=5\%$:
+below that, the choice of which weekday carries the promotion budget would not change.
+
+\tpart{b}{Other tests we considered}
+The same hub appears in all four cells, so the data are paired; $\sigma$ is unknown, so we use $t$.
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{2.4cm} Y@{}}
+\toprule
+\textbf{Also considered} & \textbf{Why we did not use it} \\
+\midrule
+Welch $t$ on hub-days & treats 262{,}170 dependent days (lag-1 $r=0.65$) as independent; $p$ would be far too small \\
+Pooled two-sample $t$ & the two weekdays come from the same hubs, so the groups are not independent \\
+$z$-test & needs the population $\sigma$ \\
+Wilcoxon signed-rank, sign test & kept as robustness checks: $p=6.0\times10^{-184}$; $d_i>0$ for 1{,}112 of 1{,}115 hubs \\
+\bottomrule
+\end{tabularx}}
+
+\tpart{c}{Result}
+\[t=\frac{\bar d-0}{s_d/\sqrt n}=\frac{0.2691}{0.09932/\sqrt{1115}}=\frac{0.2691}{0.002974}=90.47.\]
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+Estimate & $\bar d=0.269$: \key{Monday's promotion gain is 30.9\% larger} (volume $\times1.600$ on Monday, $\times1.222$ on Friday; ratio $1.600/1.222=1.309$) \\
+95\% confidence interval & $0.263$ to $0.275$ (30.1\% to 31.6\%) \\
+Test statistic (d.f.) & $t=90.47$ (1{,}114); $t_{0.975,1114}=1.962$ \\
+p-value & $<10^{-300}$ \\
+Decision & \key{reject $H_0$} (also under Bonferroni) \\
+\bottomrule
+\end{tabularx}}
+
+The whole interval lies beyond $\delta=0.05$, so the difference is large enough to matter. The normal Q-Q plot of $d_i$
+is close to a straight line (Figure~5), and with $n=1{,}115$ the CLT makes $\bar d$ close to normal.
+\textbf{Replication:} 2013 only, $\bar d=0.249$; 2014--15 only, $0.286$; odd and even HubID, $0.267$ and $0.272$; with
+holidays and reopening days included, $0.270$. All reject. On raw volume, $+2{,}169$ (95\% CI $2{,}105$--$2{,}233$).
+\textbf{Placebo:} shuffling the promotion labels within hub $\times$ weekday 200 times gives a mean estimate of 0.0002;
+7.0\% of the 200 shuffles reject at 0.05, close to the 5\% expected.
+\textbf{Shared calendar check:} the promotion calendar is the same for every hub, so hubs share date shocks. Taking the
+\emph{week} as the unit (64 promotion and 52 non-promotion weeks, contrast = cross-hub Monday mean minus Friday
+mean): an $F$-test rejects equal variances ($F=0.435$, d.f.\ 63 and 51, $p=0.0018$), so we use Welch: $t=10.6$
+(d.f.\ 84.9), estimate 0.284, 95\% CI $0.231$--$0.337$, $p=2.7\times10^{-17}$. The interval is 9 times wider, but it
+still lies wholly beyond $\delta$.
+
+%------------------------------------------------------------ Test 2
+\subsection*{Test 2 (P2): is the 2014-H2 data gap independent of hub format?}
+
+\tpart{a}{Hypotheses, written before running the test}
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+$H_0$ & $\pi_1=\pi_2=\pi_3=\pi_4$ (gap independent of format) \\
+$H_1$ & not all $\pi_f$ are equal \\
+Significance level / side & $\alpha=0.05$; non-directional (upper tail of $\chi^2$) \\
+Test & $\chi^2$ test of independence, $4\times2$ table, one row per hub ($n=1{,}115$) \\
+Smallest difference that matters & 5 percentage points in a format's gap rate \\
+\bottomrule
+\end{tabularx}}
+
+$\pi_f$ is the share of format-$f$ hubs with no rows in 2014-H2 (overall 16.1\%). $\delta=5$ points, because a shift
+that size changes the format mix of the hubs observed in 2014-H2 enough to bias any format comparison over that
+period. Rule fixed in advance: the smallest expected count is 2.74 ($<5$, format~2 has 17 hubs), so the $p$-value comes
+from 100{,}000 label permutations with the margins fixed; as a check, format~2 is merged into format~1.
+
+\tpart{b}{Other tests we considered}
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{2.4cm} Y@{}}
+\toprule
+\textbf{Also considered} & \textbf{Why we did not use it} \\
+\midrule
+Two-proportion $z$ & tests one contrast, not four groups; used below for the follow-up estimate \\
+Asymptotic $\chi^2$ only & an expected count below 5 weakens the approximation (we report it too) \\
+Fisher's exact & standard form is $2\times2$; the permutation test is its Monte Carlo version for $4\times2$ \\
+$\chi^2$ goodness of fit & compares one variable with fixed shares: the wrong question \\
+\bottomrule
+\end{tabularx}}
+
+\tpart{c}{Result}
+\[\chi^2=\sum_{\text{cells}}\frac{(O-E)^2}{E}=21.42,\]
+where $O$ and $E$ are the observed and expected hub counts ($E=$ row total $\times$ column total$/n$), with
+$(4-1)(2-1)=3$ d.f.\ and critical value $\chi^2_{0.95,3}=7.81$. Effect size: Cram\'er's
+$V=\sqrt{\chi^2/(n\cdot\min(4-1,2-1))}=\sqrt{21.42/1115}=0.139$.
+Gap rates are 14.0\%, 5.9\%, 9.5\% and 23.3\% for formats 1--4.
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+Estimate & format 4 vs rest: $\hat\pi_4-\hat\pi_{\text{rest}}=0.233-0.129=0.104$; Cram\'er's $V=0.139$ \\
+95\% confidence interval & $0.053$ to $0.154$ (Wald, $SE=0.0257$; Newcombe $0.055$--$0.156$); $V$: $0.086$--$0.202$ \\
+Test statistic (d.f.) & $\chi^2=21.42$ (3) \\
+p-value & $2.1\times10^{-4}$ (permutation); $8.6\times10^{-5}$ (asymptotic) \\
+Decision & \key{reject $H_0$} (also under Bonferroni) \\
+\bottomrule
+\end{tabularx}}
+
+The whole interval lies beyond 5 points, so the imbalance is large enough to matter.
+\textbf{Check and replication:} merged $3\times2$ table, $\chi^2(2)=20.62$, $p<10^{-4}$; odd and even HubID,
+$\chi^2(3)=10.88$ ($p=0.015$) and $11.07$ ($p=0.012$).
+\textbf{Implication:} the missingness is not random. Format~4 falls from 31.2\% of all hubs to 28.6\% of the hubs
+observed in 2014-H2, so any comparison over that period leans towards formats 1--3. This is why we never impute the gap,
+and why T4 requires 30 observed days in each window.
+
+%------------------------------------------------------------ Test 3
+\subsection*{Test 3 (P3): is competitor distance associated with typical volume?}
+
+\tpart{a}{Hypotheses, written before running the test}
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+$H_0$ & $\rho=0$ \\
+$H_1$ & $\rho\neq0$ \\
+Significance level / side & $\alpha=0.05$, two-sided \\
+Test & $t$-test on Pearson's $r$, one row per hub ($n=1{,}112$) \\
+Smallest difference that matters & $|\rho|=0.10$ \\
+\bottomrule
+\end{tabularx}}
+
+$\rho$ is the population correlation between $x_i=\ln(\text{distance})$ and $y_i=$ hub $i$'s mean $\log(1+V)$. Three
+hubs with no distance are left out (complete case). Distance has skewness 2.93, so we use its log. $\delta=0.10$, because
+an association explaining under 1\% of the variation between hubs would not inform where to site a hub.
+
+\tpart{b}{Other tests we considered}
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{2.4cm} Y@{}}
+\toprule
+\textbf{Also considered} & \textbf{Why we did not use it} \\
+\midrule
+Spearman $\rho_s$ & robustness check (detects any monotone trend): $\rho_s=-0.037$, $p=0.21$ \\
+Pearson on raw scale & a few far hubs dominate (skewness 2.93): $r=-0.045$, $p=0.14$ \\
+Regression slope $t$ & gives the identical $t$ \\
+Welch $t$, near vs far & a cut-off throws away information and is arbitrary \\
+\bottomrule
+\end{tabularx}}
+
+\tpart{c}{Result}
+\[t=\frac{(r-0)\sqrt{n-2}}{\sqrt{1-r^2}}=\frac{-0.08187\sqrt{1110}}{\sqrt{1-0.00670}}=-2.74.\]
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+Estimate & $r=-0.082$ (closer competitor, higher volume) \\
+95\% confidence interval & $-0.140$ to $-0.023$ (Fisher $z$) \\
+Test statistic (d.f.) & $t=-2.74$ (1{,}110); $t_{0.975,1110}=1.962$ \\
+p-value & $0.0063$ \\
+Decision & \key{reject $H_0$} (also under Bonferroni, $0.0063<0.0125$) \\
+\bottomrule
+\end{tabularx}}
+
+\warn{The interval straddles $-0.10$, so we cannot tell whether the association is large enough to matter}; at most it
+explains about 2\% of the variation. Controlling for format leaves it unchanged (partial $r=-0.082$). It replicates:
+$r=-0.100$ on 2013 data and $-0.067$ on 2014--15 data. An earlier version of this test, Spearman on raw volume, failed to
+reject ($\rho_s=-0.032$, $p=0.29$). The difference is explained by Figure~4 (a post-hoc look, not a test): the effect
+comes from the closest decile alone (122 hubs at distance $\le250$, $+15.9\%$), while deciles 2--10 stay within $\pm4.4\%$.
+With 5\% of each tail trimmed, $r=-0.055$ ($p=0.080$). A positive link between nearby competitors and demand is not
+competition helping: competitors cluster where shoppers already are (dense shopping streets), a hidden third factor.
+
+%------------------------------------------------------------ Test 4
+\subsection*{Test 4 (P4): does a competitor opening change volume? (difference-in-differences)}
+
+\tpart{a}{Hypotheses, written before running the test}
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+$H_0$ & $\mu_{\text{DiD}}=0$ \\
+$H_1$ & $\mu_{\text{DiD}}\neq0$ \\
+Significance level / side & $\alpha=0.05$, two-sided \\
+Test & paired $t$-test on $\text{DiD}_i$, $n=144$ hubs \\
+Smallest difference that matters & 3\% of volume (0.03 on the log scale) \\
+\bottomrule
+\end{tabularx}}
+
+Only the opening \emph{month} is known, so that month is skipped. For a treated hub, $\Delta_i=\bar y_{\text{post}}-\bar
+y_{\text{pre}}$ over the 56 days before and the 56 days after the opening month (at least 30 observed days in each).
+$C_i$ is the same change averaged over control hubs in the same calendar windows, and $\text{DiD}_i=\Delta_i-C_i$, so
+season, holidays and the shared promotion calendar cancel. Treated: openings from March 2013 to March 2015 with full
+windows, 144 of the 180 openings inside the data. Controls: 498 hubs whose competitor opened before 2012 or after June
+2015 (418--498 per window). The 1900 sentinel and the 354 unknown dates are left out. $\delta=3\%$, because a smaller fall
+is within the hub's ordinary week-to-week variation and would not call for a response.
+
+\tpart{b}{Other tests we considered}
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{2.4cm} Y@{}}
+\toprule
+\textbf{Also considered} & \textbf{Why we did not use it} \\
+\midrule
+Before/after, no control (our earlier design) & season is confounded with ``after'': the control change alone varies
+  across windows with SD 0.093, as large as the effect. It gives $-5.6\%$ (CI $-7.8$ to $-3.4\%$) \\
+Welch $t$, treated vs controls & ignores the pairing of each hub with its own calendar window \\
+Wilcoxon signed-rank on $\text{DiD}_i$ & robustness check (the Q-Q plot shows a heavy left tail): $p=1.9\times10^{-17}$ \\
+\bottomrule
+\end{tabularx}}
+
+\tpart{c}{Result}
+\[t=\frac{\overline{\text{DiD}}-0}{s/\sqrt n}=\frac{-0.09218}{0.1170/\sqrt{144}}=\frac{-0.09218}{0.009752}=-9.45.\]
+{\small
+\begin{tabularx}{\linewidth}{@{}K{3.4cm} Y@{}}
+\toprule
+Estimate & $\overline{\text{DiD}}=-0.092$: \key{volume $8.8\%$ lower after an opening} \\
+95\% confidence interval & $-0.111$ to $-0.073$ ($-10.5\%$ to $-7.0\%$) \\
+Test statistic (d.f.) & $t=-9.45$ (143); $t_{0.975,143}=1.977$ \\
+p-value & $9.0\times10^{-17}$ \\
+Decision & \key{reject $H_0$} (also under Bonferroni) \\
+\bottomrule
+\end{tabularx}}
+
+The whole interval lies beyond $-3\%$, so the fall is large enough to matter.
+\textbf{Sensitivity and replication:} 28-day windows $-9.1\%$; 84-day windows $-8.4\%$; same-format controls $-8.8\%$;
+reopening days excluded $-8.4\%$; odd and even HubID $-9.0\%$ and $-8.6\%$; openings in 2013 and in 2014--15 $-8.3\%$ and
+$-9.3\%$. All reject.
+\textbf{Placebo:} moving every opening 12 months earlier (92 hubs) gives $-0.7\%$ (CI $-2.0$ to $+0.6\%$), $t(91)=-1.08$,
+$p=0.28$. We fail to reject, and the CI lies inside $\pm3\%$: the design does not invent a fall where none should exist.
+
+\begin{figure}[!ht]
+  \figfile{\FIG fig_qq.pdf}{3.0cm}
+  \caption{T1 differences are close to normal; T4 differences have a heavy left tail, so we also report Wilcoxon (same
+  decision).}
+\end{figure}
+
+\minihead{All four tests together}
+{\footnotesize
+\begin{tabularx}{\linewidth}{@{}L{0.55cm} L{1.75cm} L{1.4cm} Y L{1.25cm}@{}}
+\toprule
+\textbf{Test} & \textbf{Statistic (d.f.)} & \textbf{p} & \textbf{Estimate [95\% CI]} & \textbf{Matters?} \\
+\midrule
+T1 & $t=90.47$ (1{,}114) & $<10^{-300}$ & $+30.9\%$ [30.1, 31.6] (ratio of multipliers) & \key{yes} \\
+T2 & $\chi^2=21.42$ (3) & $2.1\times10^{-4}$ & $+10.4$ points [5.3, 15.4] & \key{yes} \\
+T3 & $t=-2.74$ (1{,}110) & $0.0063$ & $r=-0.082$ [$-0.140$, $-0.023$] & \warn{uncertain} \\
+T4 & $t=-9.45$ (143) & $9.0\times10^{-17}$ & $-8.8\%$ [$-10.5$, $-7.0$] & \key{yes} \\
+\bottomrule
+\end{tabularx}}
+
+All four raw $p$-values are below the Bonferroni level 0.0125, and Holm gives the same four rejections. \warn{T3 is the fragile one: it rests on one decile.}
+\key{What would change our mind:} T1, a week-level interval reaching below 0.05; T3, the closest-decile effect
+vanishing once a measure of shopper density is added; T4, placebo dates producing falls of similar size.
+
+%-----------------------------------------------------------------------
+\section{Limitations}
+
+\begin{itemize}
+  \item \key{Association, not cause.} The business sets one promotion calendar for all hubs, so promotion weeks may
+  differ from other weeks in ways we cannot see. Competitors choose where to open, and T3 suggests they choose busy
+  places. DiD assumes treated and control hubs would have moved in parallel; the placebo supports this but cannot prove it.
+  \item \key{Shared dates.} All hubs share the calendar, so hub-level standard errors ignore cross-hub correlation.
+  The week-level T1 check had a standard error 9 times larger. T4's control subtraction removes shared date shocks;
+  T2 and T3 use one static value per hub.
+  \item \key{Rows left out.} 166{,}269 closed and 54 open-zero rows; the non-random 2014-H2 gap (T2); 36 of the 180
+  openings (incomplete windows) and the 354 hubs with an unknown opening date (T4); 3 hubs without a distance (T3).
+  \item \key{Month-precision event dates.} The opening month is skipped, so a fall that starts and ends within it
+  would be missed.
+  \item \key{Provenance and units.} The data is renamed public data, and the unit of \code{OrderVolume} is unstated.
+  Our effects are relative (\%), so they do not depend on the unit.
+  \item \key{Choices made after EDA.} The questions came after exploration and an earlier raw-scale run, so all tests
+  are two-sided and the plan is not a true pre-registration. The T3 decile breakdown is post hoc.
+  \item \key{Scope.} January 2013 to June 2015 only; the test file's summer weeks are covered only through earlier
+  summers.
+\end{itemize}
+
+\end{document}

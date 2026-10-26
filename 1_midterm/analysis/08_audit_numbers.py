@@ -2,7 +2,7 @@
 
 Each number is matched (at its printed precision) against: the r1 result tables, a small set of
 explicitly derived values (formula shown), or a design constant fixed in analysis_plan_r1.md.
-Writes results/r1/audit_numbers.csv; exit code 1 if any number is unmatched.
+Writes results/audit_numbers.csv; exit code 1 if any number is unmatched.
 """
 from __future__ import annotations
 
@@ -16,7 +16,7 @@ import pandas as pd
 
 from common import OUT, ROOT
 
-TEX = ROOT / "midterm" / "report" / "main.tex"
+TEX = ROOT / "report" / "main.tex"
 SKIP_TABLES = {"t1_hub_differences.csv", "t3_hub_data.csv", "t4_did_hubs.csv", "t4_placebo_hubs.csv",
                "desc_hubs_per_date.csv", "t1_placebo.csv", "prep_flagged_rows.csv", "file_hashes.csv", "audit_numbers.csv"}
 NUM = re.compile(r"(?<![A-Za-z_\\\d.])[-+]?\d[\d,]*(?:\.\d+)?(?:\\times10\^\{-?\d+\})?")
@@ -43,7 +43,7 @@ def pool() -> list[tuple[float, str]]:
     """All numeric values in the summary-level result tables (and numbers embedded in text cells)."""
     out: list[tuple[float, str]] = []
     files = sorted(p for p in OUT.glob("*.csv") if p.name not in SKIP_TABLES)
-    files += [ROOT / "midterm" / "results" / "test_results.csv"]           # v0 numbers quoted as 'earlier version'
+    files += [ROOT.parent / "2_future_work_progress" / "midterm_v0_archive" / "results_v0" / "test_results.csv"]           # v0 numbers quoted as 'earlier version'
     for f in files:
         df = pd.read_csv(f)
         for col in df.columns:
@@ -70,7 +70,12 @@ def derived() -> list[tuple[float, str]]:
     dec = pd.read_csv(OUT / "t3_deciles_posthoc.csv")
     t3 = pd.read_csv(OUT / "t3_results.csv").iloc[0]
     v = pd.read_csv(OUT / "verify.csv").set_index("claim")["recomputed"]
-    return [(100 * 180 / 1115, "derived: 100*180/1115 (t2_contingency.csv)"),
+    wk = pd.read_csv(OUT / "desc_weekday_lift.csv").set_index("weekday")
+    t1 = pd.read_csv(OUT / "t1_results.csv").iloc[0]
+    return [(1 + wk.loc[1, "pct"], "derived: 1 + Monday lift (desc_weekday_lift.csv)"),
+            (1 + wk.loc[5, "pct"], "derived: 1 + Friday lift (desc_weekday_lift.csv)"),
+            (float(np.exp(t1.estimate)), "derived: exp(d-bar) (t1_results.csv)"),
+            (100 * 180 / 1115, "derived: 100*180/1115 (t2_contingency.csv)"),
             (100 * 29307 / 804110, "derived: 100*29307/804110 (prep_waterfall/verify)"),
             (100 - rz["none of these"], "derived: 100 - share 'none of these' (prep_robust_z_context.csv)"),
             *[(float(s), f"derived: sum of shares '{k}' (prep_robust_z_context.csv)") for k, s in rz.items()],

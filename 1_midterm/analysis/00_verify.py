@@ -1,7 +1,7 @@
 """Stage 0: recompute every fact claimed in MASTER_PROMPT §2 from the raw CSVs.
 
-Prints `claim | claimed | recomputed | match` and writes results/r1/verify.csv
-plus results/r1/file_hashes.csv. Exit code 1 if any claim mismatches.
+Prints `claim | claimed | recomputed | match` and writes results/verify.csv
+plus results/file_hashes.csv. Exit code 1 if any claim mismatches.
 """
 from __future__ import annotations
 

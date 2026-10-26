@@ -13,7 +13,7 @@ import pandas as pd
 
 from common import FIG, OUT, ROOT
 
-REPORT = ROOT / "midterm" / "report"
+REPORT = ROOT / "report"
 TEX, PDF = REPORT / "main.tex", REPORT / "main.pdf"
 BANNED = [r"restaurant", r"blah", r"REPLACE_ME", r"accept(ed)?\s*(the\s*)?\$?H_?\{?0", r"\\eg\{", r"\\egblock\{",
           r"forecast", r"leaderboard", r"CatBoost", r"LightGBM", r"RMSLE", r"cross-validation"]
@@ -34,9 +34,10 @@ def pdf_pages() -> int:
 
 
 def git_time(path: str, grep: str = "") -> int:
-    args = ["git", "log", "--format=%ct", "--reverse", "--", path]
+    """Unix time of the commit that first added `path`, following renames (0 if never committed)."""
+    args = ["git", "log", "--follow", "--diff-filter=A", "--format=%ct", "--", path]
     out = subprocess.run(args, capture_output=True, text=True, cwd=ROOT).stdout.split()
-    return int(out[0]) if out else 0
+    return int(out[-1]) if out else 0
 
 
 def main() -> int:
@@ -64,7 +65,7 @@ def main() -> int:
         n = pdf_pages()
         check("PDF at most 8 pages", n <= 8, f"{n} pages")
         check("PDF newer than main.tex", PDF.stat().st_mtime >= TEX.stat().st_mtime)
-    plan, res = git_time("midterm/analysis_plan_r1.md"), git_time("midterm/results/r1/t1_results.csv")
+    plan, res = git_time("docs/analysis_plan_r1.md"), git_time("results/t1_results.csv")
     check("analysis plan committed before test results", plan and (not res or plan <= res), f"plan {plan}, results {res}")
     for label, ok, detail in CHECKS:
         print(f"{'PASS' if ok else 'FAIL'}  {label}  {detail}")

@@ -1,6 +1,6 @@
 """Stage 6, part 3: one summary row per test, with Bonferroni and Holm decisions.
 
-Reads the per-test CSVs written by 02/03 and writes results/r1/tests_summary.csv.
+Reads the per-test CSVs written by 02/03 and writes results/tests_summary.csv.
 """
 from __future__ import annotations
 
