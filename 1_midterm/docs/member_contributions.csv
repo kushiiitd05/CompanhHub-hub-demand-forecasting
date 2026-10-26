@@ -1,6 +1,6 @@
 roll_no,name,contribution
-2023312,Manya Chaturvedi,REPLACE_ME
-2023296,Kush Tokas,REPLACE_ME
-2024053,Akash Adur,REPLACE_ME
-2023114,Anusha Rana,REPLACE_ME
-2023483,Sanjeev,REPLACE_ME
+2023312,Manya Chaturvedi,"Chose the tests and the reasoning for each, with the alternatives we rejected"
+2023296,Kush Tokas,"Dataset preparation, size check and problem research; repository setup and merge of earlier work"
+2024053,Akash Adur,"Figure and caption review; proofreading"
+2023114,Anusha Rana,"Ran the hypothesis tests; first analysis version (earlier branch)"
+2023483,Sanjeev,"EDA, first draft of the report, final check of all statistics"
