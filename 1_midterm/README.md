@@ -17,6 +17,11 @@ cd .. && pytest -q tests     # 9 unit tests
 cd report && pdflatex main.tex && pdflatex main.tex   # or: tectonic main.tex
 ```
 
+**Only have the code zip?** It does not contain `data/raw/` (33 MB). Download the four files from
+<https://github.com/kushiiitd05/ShadowDsc10-ShadowHub/tree/cse558-midterm-2026/1_midterm/data/raw> into `data/raw/`
+(check them against the SHA-256 table in section 2), then run the commands above. The validator skips its git-history
+check when there is no `.git` folder.
+
 | Step | Script | What it writes (`results/`) |
 |---|---|---|
 | 0 | `00_verify.py` | `verify.csv`: 125 claimed facts recomputed from the raw CSVs (all match); `file_hashes.csv` |
