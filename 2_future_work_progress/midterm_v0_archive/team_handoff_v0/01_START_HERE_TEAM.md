@@ -42,7 +42,7 @@ The tool inserts your contributions, compiles the PDF twice, rejects missing cre
 1. **Open the generated PDF and read every page.** Confirm five real contributions on page 1; check page 4's sensitivity table stays within one column; no clipped tables or missing images; total no more than eight pages. Compare the report style with the original official template under `reference/`.
 2. **Update the actual GitHub branch** `cse558-midterm-2026` with the latest `project/midterm/` folder, report, results, scripts and README. The public branch was previously stale. A member with **push permission** must perform this step. See `02_GITHUB_AND_CLASSROOM.md`.
 3. Open this URL in an incognito browser to check code and README are visible:
-   https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting/tree/cse558-midterm-2026
+   https://github.com/kushiiitd05/ShadowDsc10-ShadowHub/tree/cse558-midterm-2026
 4. In Classroom, submit **`CSE558_Final_Report.pdf`**. Also submit **`CSE558_Code_And_Readme.zip`** (or individual Python scripts if Classroom prohibits ZIP). Confirm both uploads, and submit before **27 Oct 2026, 11:59 PM**.
 
 ## If you do not have pdflatex (Overleaf route)
@@ -63,7 +63,7 @@ You may need `python -m pip install pypdf` if neither `pypdf` nor `pdfinfo` is a
 
 ## What you do NOT submit
 
-- `CompanhHub-hub-demand-forecasting.zip` (~794 MB) — entire project/data/models.
+- `ShadowDsc10-ShadowHub.zip` (~794 MB) — entire project/data/models.
 - Any `FINAL_REMEDIATION_PACKAGE`, `VERIFIED_FINAL_AUDIT`, or earlier correction ZIP.
 - This consolidated `CSE558_TEAM_FINAL_HANDOFF.zip` — it's a **working handoff**, not the Classroom deliverable.
 - `reference/` template PDF or the teacher's guidelines.

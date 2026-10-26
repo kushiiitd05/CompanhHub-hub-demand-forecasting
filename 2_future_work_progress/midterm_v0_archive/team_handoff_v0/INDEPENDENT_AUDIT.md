@@ -40,7 +40,7 @@ These are **observational** analyses, not causal promotion/competitor effects.
 ## Exactly what to do next
 
 1. Extract this ZIP. Open your repository's `cse558-midterm-2026` checkout. The repository must contain the latest `midterm` folder and the associated Python scripts, not just the old GitHub branch.
-2. Run `python apply_final_layout_fixes.py --repo "C:\\full\\path\\to\\CompanhHub-hub-demand-forecasting"` from the extracted ZIP folder. It patches `midterm/report/main.tex` and updates the existing `validate_midterm.py`.
+2. Run `python apply_final_layout_fixes.py --repo "C:\\full\\path\\to\\ShadowDsc10-ShadowHub"` from the extracted ZIP folder. It patches `midterm/report/main.tex` and updates the existing `validate_midterm.py`.
 3. Open `<repo>/midterm/member_contributions.csv` and replace `blah 1`–`blah 5` with the actual work of each member. From `<repo>` run `python fill_team_contributions.py --repo .`. Verify `main.tex` no longer contains `blah`, `TBD`, or other placeholders.
 4. From `<repo>`, run `python complete_midterm.py --repo .`. This re-runs the analysis, generates PDF and builds the submission ZIP **only if checks pass**. `linearmodels`, `pypdf`, `pdflatex` and other packages from `requirements-midterm.txt` must be available. If a script errors, fix it before submitting; do not reuse previous generated PDF.
 5. Open all PDF pages and look for overlaps or missing figures; verify corrected page-4 Table 5. If you have not confirmed the professor's provided LaTeX styling is satisfied, compare visually with the template's example before submission.

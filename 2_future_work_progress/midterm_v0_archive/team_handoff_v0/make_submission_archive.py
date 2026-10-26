@@ -14,7 +14,7 @@ SOURCES=['requirements-midterm.txt','capture_environment.py','audit_structure.py
          'run_sensitivity_analysis.py','integrate_verified_results.py',
          'validate_midterm.py','complete_midterm.py','make_submission_archive.py',
          'midterm/README.md','midterm/report/main.tex',
-         'midterm/report/CompanhHub_hub_demand_forecasting.pdf']
+         'midterm/report/ShadowHub_demand.pdf']
 
 def build(repo):
     repo=repo.resolve()
@@ -27,7 +27,7 @@ def build(repo):
     filelist=sorted(set(filelist))
     missing=[str(p) for p in filelist if not p.is_file()]
     if missing:raise FileNotFoundError(str(missing))
-    if not (repo/'midterm/report/CompanhHub_hub_demand_forecasting.pdf').is_file():
+    if not (repo/'midterm/report/ShadowHub_demand.pdf').is_file():
         raise FileNotFoundError('No final compiled PDF')
     out=repo/'midterm/submission/CSE558_final_submission.zip'
     out.parent.mkdir(parents=True,exist_ok=True)

@@ -1,7 +1,7 @@
 # Hub Order Demand Forecasting —
 
 Time-series demand forecasting for 1,115 retail hubs over a 42-day horizon. Built for the
-**CH'27 Celebal Technologies × IIITD Data Science** competition, and reused here as our
+**Shadow Hub Data Science** competition, and reused here as our
 group's Data Science course project. Leaderboard metric is **RMSLE**.
 
 **Final public leaderboard score: `0.06976` RMSLE** (down from an initial baseline submission of

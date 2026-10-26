@@ -7,7 +7,7 @@ import statsmodels.api as sm
 
 
 # ============================================================
-# CompanhHub: sensitivity analysis
+# ShadowHub: sensitivity analysis
 # T1: two-way fixed-effects regression
 # T4: alternative competitor-opening event windows
 # ============================================================

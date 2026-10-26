@@ -131,7 +131,7 @@ def build(use_existing_pdf=False):
         if any(w in text.lower() for w in ['blah 1','blah 2','blah 3','blah 4','blah 5','figure file not found']):
             die('Placeholders found in compiled PDF. DO NOT SUBMIT.')
     # The strict source/data/PDF validator expects this canonical report location.
-    shutil.copy2(final,REPORT/'CompanhHub_hub_demand_forecasting.pdf')
+    shutil.copy2(final,REPORT/'ShadowHub_demand.pdf')
     validation=subprocess.run([sys.executable,str(ROOT/'validate_midterm.py'),'--repo',str(ROOT)],cwd=ROOT,
                               capture_output=True,encoding='utf-8',errors='replace')
     print('\n--- INDEPENDENT SOURCE AND PDF VALIDATION ---')

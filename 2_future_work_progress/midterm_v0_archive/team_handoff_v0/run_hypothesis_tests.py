@@ -8,7 +8,7 @@ from scipy import stats
 
 
 # ============================================================
-# COMPANHHUB — CSE558 MIDTERM HYPOTHESIS TESTS
+# SHADOWHUB — CSE558 MIDTERM HYPOTHESIS TESTS
 # Four primary tests; alpha = 0.05; Holm correction across tests
 # ============================================================
 

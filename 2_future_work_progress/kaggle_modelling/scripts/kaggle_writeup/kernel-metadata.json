@@ -8,6 +8,6 @@
   "enable_gpu": false,
   "enable_internet": false,
   "dataset_sources": ["kushtokas/solari-final-submission"],
-  "competition_sources": ["ch-27-celebal-technologies-iiit-ds"],
+  "competition_sources": ["private-competition"],
   "keywords": []
 }

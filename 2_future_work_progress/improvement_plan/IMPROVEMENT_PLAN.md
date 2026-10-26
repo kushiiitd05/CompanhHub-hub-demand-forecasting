@@ -1,4 +1,4 @@
-# Improvement Plan: Hub Order Forecasting (CH'27 Celebal × IIITD)
+# Improvement Plan: Hub Order Forecasting (Shadow Hub)
 
 Written 2026-10-17. Current public LB: **0.06976** (CatBoost + LightGBM + LightGBM-Tweedie, log-mean blend).
 Target: **< 0.06** public LB, gated by local CV.
@@ -228,15 +228,15 @@ Not run yet; this is for later.
 1. Connect the FortiClient VPN (IIITD) and confirm the server is up.
 2. Set up the project folder and copy everything except data:
    ```bash
-   ssh vinayak-server 'mkdir -p /home/vinayak23597/Kush/celebal_improve'
+   ssh vinayak-server 'mkdir -p /home/vinayak23597/Kush/shadowhub_improve'
    rsync -av --exclude data/processed --exclude .git ~/Desktop/Kaggle_comp_clebal/ \
-       vinayak-server:/home/vinayak23597/Kush/celebal_improve/
+       vinayak-server:/home/vinayak23597/Kush/shadowhub_improve/
    ```
 3. On the server, rebuild the processed data there instead of copying it: run `preprocess`, `build-training-origins` and `build-folds`, then the walk-forward. Use `nohup … &> run.log &` or `tmux`.
 4. Use the GPU only for Phase 3 (Chronos-2, neuralforecast, embedding MLP). Pin it with `CUDA_VISIBLE_DEVICES=0`; the GBDT runs use CPU.
 5. Pull results back to the Mac:
    ```bash
-   rsync -av vinayak-server:/home/vinayak23597/Kush/celebal_improve/artifacts/models/ \
+   rsync -av vinayak-server:/home/vinayak23597/Kush/shadowhub_improve/artifacts/models/ \
        ~/Desktop/Kaggle_comp_clebal/artifacts/models/
    ```
 6. Append the run to `experiments.csv` with the server's git commit and data SHA-256.

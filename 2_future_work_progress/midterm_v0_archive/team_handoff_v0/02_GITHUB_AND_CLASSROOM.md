@@ -4,15 +4,15 @@
 
 The branch must include the corrected files, because the PDF links to it. The link is:
 
-https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting/tree/cse558-midterm-2026
+https://github.com/kushiiitd05/ShadowDsc10-ShadowHub/tree/cse558-midterm-2026
 
 ### Option A: VS Code + Git
 
 Clone or open an existing checkout on the branch. In a NEW empty parent directory:
 
 ```powershell
-git clone --branch cse558-midterm-2026 --single-branch https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting.git
-cd CompanhHub-hub-demand-forecasting
+git clone --branch cse558-midterm-2026 --single-branch https://github.com/kushiiitd05/ShadowDsc10-ShadowHub.git
+cd ShadowDsc10-ShadowHub
 git branch --show-current
 ```
 
@@ -27,7 +27,7 @@ git commit -m "Finalize CSE558 midterm report and verified inference scripts"
 git push origin cse558-midterm-2026
 ```
 
-Review `git status` before committing; avoid staging large generated `.parquet` files, stale PDFs, secrets or temporary LaTeX logs. The `midterm/report/CompanhHub_hub_demand_forecasting.pdf` should be the **newly generated** PDF; if your build only created `SUBMIT_TO_CLASSROOM/CSE558_Final_Report.pdf`, copy that file to the report location before pushing. Do not push unless contributors' real details are present.
+Review `git status` before committing; avoid staging large generated `.parquet` files, stale PDFs, secrets or temporary LaTeX logs. The `midterm/report/ShadowHub_demand.pdf` should be the **newly generated** PDF; if your build only created `SUBMIT_TO_CLASSROOM/CSE558_Final_Report.pdf`, copy that file to the report location before pushing. Do not push unless contributors' real details are present.
 
 If `git push` fails for permissions, ask the repository owner or a collaborator with write access to push these files. It is not necessary to upload the 794MB ZIP to GitHub again.
 

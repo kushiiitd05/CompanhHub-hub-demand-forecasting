@@ -56,7 +56,7 @@ class Paths:
     @property
     def raw(self) -> Path:
         local = self.root / "datset_kaggle"
-        shared = self.root.parents[1] / "1_midterm" / "datset_kaggle"
+        shared = self.root.parents[1] / "1_midterm" / "data" / "raw"
         return local if local.exists() or not shared.exists() else shared
 
     @property

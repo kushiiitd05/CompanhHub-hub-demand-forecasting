@@ -31,7 +31,7 @@ def main(repo:Path,build_pdf=True):
             print('\n=== LATEX PASS',run+1,'===',flush=True)
             subprocess.run(['pdflatex','-interaction=nonstopmode','-halt-on-error','main.tex'],
                            cwd=repo/'midterm/report',check=True,stdout=subprocess.DEVNULL)
-        output=repo/'midterm/report/CompanhHub_hub_demand_forecasting.pdf'
+        output=repo/'midterm/report/ShadowHub_demand.pdf'
         shutil.copy2(repo/'midterm/report/main.pdf',output)
         print('PDF GENERATED',output)
     subprocess.run([sys.executable,str(repo/'validate_midterm.py'),'--repo',str(repo)],cwd=repo,check=True)

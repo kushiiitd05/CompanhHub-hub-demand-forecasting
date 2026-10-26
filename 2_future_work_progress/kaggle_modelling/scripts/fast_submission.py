@@ -40,7 +40,7 @@ def main() -> None:
     pred = np.where(test["IsOpen"].eq(0), 0.0, np.clip(pred, 0, None))
 
     submission = pd.DataFrame({"Id": test["Id"], "OrderVolume": pred})
-    sample = pd.read_csv(paths.root / "datset_kaggle" / "sample_submission.csv")
+    sample = pd.read_csv(paths.raw / "sample_submission.csv")
     assert len(submission) == len(sample), "row count mismatch vs sample_submission"
     assert list(submission["Id"]) == list(sample["Id"]), "Id order mismatch vs sample_submission"
 

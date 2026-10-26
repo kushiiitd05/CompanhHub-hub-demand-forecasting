@@ -1,6 +1,6 @@
 # Hub Order Forecasting — Approach, Validation, and Findings
 
-**Competition:** CH'27 — Celebal Technologies × IIITD hub order forecasting (42-day horizon, RMSLE)
+**Competition:** Shadow Hub hub order forecasting (42-day horizon, RMSLE)
 **Author:** Kush Tokas · **Fixed seed (disclosed):** `20260807`
 **Environment:** Python 3.11.13, pandas 2.3.3, numpy 1.25.2, scikit-learn 1.7.2, CatBoost 1.2.10, LightGBM 4.7.0
 

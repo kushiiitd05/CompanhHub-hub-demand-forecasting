@@ -1,6 +1,6 @@
-# CSE558 Midterm: CompanhHub Hub-Order Demand Forecasting
+# CSE558 Midterm: ShadowHub Hub-Order Demand Forecasting
 
-**Course:** IIIT-Delhi CSE558 Data Science, Monsoon 2026. **Report deadline:** 27 October 2026, 11:59 PM. **Branch:** [`cse558-midterm-2026`](https://github.com/kushiiitd05/CompanhHub-hub-demand-forecasting/tree/cse558-midterm-2026).
+**Course:** IIIT-Delhi CSE558 Data Science, Monsoon 2026. **Report deadline:** 27 October 2026, 11:59 PM. **Branch:** [`cse558-midterm-2026`](https://github.com/kushiiitd05/ShadowDsc10-ShadowHub/tree/cse558-midterm-2026).
 
 ## What is inside the handoff
 
@@ -10,7 +10,7 @@ The handoff's **`FINISH_AND_PACKAGE.py`** (one directory above `project/`) is th
 
 ## Dataset, encoding and questions
 
-The original files are from the supplied CH'27 Celebal Technologies–IIIT-Delhi hub-demand competition dataset. The exact public original dataset URL should be linked only if verified. Training has **970,379 observed hub-date rows × nine columns**; metadata contains **1,115 hubs × 10 columns**; outcome-free test data contain **46,830 rows × eight columns**. After joining metadata, adding missingness indicators and encoding categorical variables, the training representation contains **970,379 × 35 = 33,963,265** entries (required ≥3M).
+The original files are from the supplied Shadow Hub hub-demand competition dataset. The exact public original dataset URL should be linked only if verified. Training has **970,379 observed hub-date rows × nine columns**; metadata contains **1,115 hubs × 10 columns**; outcome-free test data contain **46,830 rows × eight columns**. After joining metadata, adding missingness indicators and encoding categorical variables, the training representation contains **970,379 × 35 = 33,963,265** entries (required ≥3M).
 
 Hypothesis tests at α=0.05 with Holm multiple-testing correction:
 

@@ -113,7 +113,7 @@ def validate(repo:Path):
                 check('T2 bootstrap agrees with primary result',abs(t2.iloc[0].effect_estimate-b.cramers_v)<1e-8 and abs(t2.iloc[0].ci95_low-b.ci95_low)<0.015 and abs(t2.iloc[0].ci95_high-b.ci95_high)<0.015)
         except Exception as exc:check('statistical CSV validation',False,str(exc))
     else:check('statistical CSV validation',False)
-    pdf=repo/'midterm/report/CompanhHub_hub_demand_forecasting.pdf'
+    pdf=repo/'midterm/report/ShadowHub_demand.pdf'
     check('compiled final PDF exists and is non-empty',pdf.exists() and pdf.stat().st_size>50_000 if pdf.exists() else False)
     if pdf.exists():
         pages=None
