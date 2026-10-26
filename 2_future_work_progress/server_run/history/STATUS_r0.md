@@ -1,3 +1,5 @@
+> **Historical snapshot.** Paths refer to the layout before the 26 Oct restructure. See `../STATUS.md` for the current state.
+
 # STATUS: where everything stands
 
 ## Update 2026-10-26 (server session, branch `max/midterm-r1`, local only)
@@ -49,7 +51,7 @@ Verified (numbers recomputed from raw CSVs by the team audit, and `validate_midt
 
 Not done / failing:
 - The single failing check: **contribution placeholders** (`blah 1` … `blah 5` in `main.tex`; `REPLACE_ME` in `member_contributions.csv`). Only the five members can write these truthfully.
-- The PDF in the repo (`midterm/report/CompanhHub_hub_demand_forecasting.pdf`, 4 pages) is **stale** and still carries `blah`.
+- The PDF in the repo (`midterm/report/ShadowHub_demand.pdf`, 4 pages) is **stale** and still carries `blah`.
 - A newer 5-page PDF (`CSE558_Report_with_additions_highlighted.pdf`, kept locally, not in git) has a key-features table, a Kaggle link and a README link that the repo's `main.tex` lacks. **Its LaTeX source is not in the repo.** Find the source before editing `main.tex`, or the additions get lost.
 - No LaTeX on the author's Mac (`pdflatex` not found). Build via Overleaf, or `brew install tectonic` (small).
 

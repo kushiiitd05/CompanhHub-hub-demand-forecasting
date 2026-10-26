@@ -3,10 +3,11 @@
 | File | Purpose |
 |---|---|
 | `MAX_PLAN_PROMPT.md` | The prompt to paste into the Claude session on the server |
-| `STATUS.md` | Snapshot of everything: repo map, what is merged, what is verified, what is missing |
+| `STATUS.md` | Current state: repo map, what is done, what is open |
 | `RESEARCH_PROTOCOL.md` | Full-marks plan: rubric matrix, research agenda, writing guide, Max ↔ Mac review loop |
 | `REVIEW_REQUEST_TEMPLATE.md` | Hand-over form for review |
-| `GAP_ANALYSIS.md` | Report vs requirements, test-quality review, EDA to do, ordered task list |
+| `MASTER_PROMPT_CSE558_Midterm.md` | Full statistical spec for the midterm |
+| `history/` | Earlier gap analysis, status and review request |
 | `SESSION_LOG.md` | Append-only log written by the session (`[date] [phase] [action] [result]`) |
 
 New code and experiment logs for the Kaggle improvement work go in this folder, not in `kaggle_modelling/`.

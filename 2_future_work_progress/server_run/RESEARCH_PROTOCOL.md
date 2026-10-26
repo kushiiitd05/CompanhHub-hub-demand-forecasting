@@ -1,6 +1,6 @@
 # RESEARCH PROTOCOL: midterm, aimed at full marks
 
-Companion to `MAX_PLAN_PROMPT.md` (Job 1). The Max-plan session follows this file for *how to research, write and hand over*; `GAP_ANALYSIS.md` says *what is missing*.
+Companion to `MAX_PLAN_PROMPT.md` (Job 1). The Max-plan session follows this file for *how to research, write and hand over*; `history/GAP_ANALYSIS_r0.md` says *what is missing*.
 
 **How we are graded (guidelines, verbatim):** "graded on how much you could dig into and infer from the data, not on whether a test rejects H0." So depth, correct method choice, honest effect sizes and a clear comparison with alternative tests earn marks. A significant result earns nothing extra. A rigorous non-significant result is a full-credit finding.
 
@@ -64,14 +64,14 @@ Environment: `/opt/anaconda3/envs/eda311` locally; on the server use a fresh ven
 1. Work on a local branch `max/midterm-r1` cut from `main`. Never commit to `main` or `cse558-midterm-2026`.
 2. Commit per file group; never commit `.aux/.log`, raw zips or secrets.
 3. After each phase update, in the repo: `STATUS.md` (done/verified/open), `SESSION_LOG.md` (`[date] [phase] [action] [result]`), and a filled copy of `REVIEW_REQUEST_TEMPLATE.md` saved as `REVIEW_REQUEST.md`.
-4. Save every new number as a CSV in `1_midterm/midterm/results/` with the script that made it; list `old → new` for every number that changed in the report.
+4. Save every new number as a CSV in `1_midterm/results/` with the script that made it; list `old → new` for every number that changed in the report.
 5. Hand over as the branch (push only on an explicit "go") or as `git bundle create review.bundle main..max/midterm-r1`.
 
-**What is shown to the reviewer:** the branch diff, `REVIEW_REQUEST.md`, `validate_midterm.py` output, the built PDF, and the `audit_numbers.csv` (number in PDF → source file:line).
+**What is shown to the reviewer:** the branch diff, `REVIEW_REQUEST.md`, `1_midterm/analysis/07_validate.py` output, the built PDF, and the `audit_numbers.csv` (number in PDF → source file:line).
 
 **Mac review checklist (I run this):**
 - [ ] `git diff main...max/midterm-r1` read in full; no changes in `kaggle_modelling/`; no secrets or hostnames.
-- [ ] Re-run `validate_midterm.py` (46/46) and `pytest`.
+- [ ] Re-run `1_midterm/analysis/07_validate.py` (all pass) and `pytest`.
 - [ ] Recompute 5 random numbers from raw CSVs independently; spot-check each test with `scipy`.
 - [ ] Compile the PDF; read all pages; ≤ 8 pp; no clipped tables; all figures present.
 - [ ] Every rubric row in §1 above answered in the PDF.

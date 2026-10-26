@@ -1,3 +1,5 @@
+> **Historical snapshot.** Paths refer to the layout before the 26 Oct restructure. See `../STATUS.md` for the current state.
+
 # GAP ANALYSIS: midterm report vs requirements
 
 Sources compared: `1_midterm/reference/MASTER_PROMPT_CSE558_Midterm.md` (the plan, R1–R8, S1–S11, Q1–Q18), the course guidelines/template PDF, `1_midterm/midterm/report/main.tex` (+ `*_verified.tex`), `midterm/results/*.csv`, `validate_midterm.py` output. Report is currently 4 pages; the limit is 8, so there is room for about 4 more.

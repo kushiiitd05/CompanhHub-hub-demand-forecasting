@@ -1,10 +1,10 @@
 # MASTER PROMPT — CSE558 Midterm Project Report (Monsoon 2026)
 
 > Paste everything below the line into a fresh Claude session that has file and shell access to
-> `~/Desktop/Kaggle_comp_clebal/` and `~/Desktop/Dsc/`. The prompt is self-contained.
+> `the repository root` and `~/Desktop/Dsc/`. The prompt is self-contained.
 > Built on 2026-10-15 from: the midterm guidelines, `CSE558_Project_Report_Template.tex`, Lectures 1–12,
-> Quiz 1 rubric and Quiz 2 solutions, our Celebal repo (`Kaggle_comp_clebal`), and a scan of the
-> All-India #20 entity-resolution submission (team NOT YET). Every number in §2 was recomputed from the raw CSVs
+> Quiz 1 rubric and Quiz 2 solutions, our Shadow Hub repo (`Kaggle_comp_clebal`), and a scan of the
+> All-India #20 entity-resolution submission (another team). Every number in §2 was recomputed from the raw CSVs
 > on 2026-10-15. Re-verify them anyway (Stage 0).
 
 ---
@@ -52,7 +52,7 @@ tests** (3 is the floor, 5 is too many for 8 pages).
 
 ## 2. THE DATA — VERIFIED FACTS (recompute each in Stage 0; stop and report if any differs)
 
-### 2.1 Files (`~/Desktop/Kaggle_comp_clebal/datset_kaggle/`)
+### 2.1 Files (`1_midterm/data/raw/`)
 
 | File | Shape | Role in this report |
 |---|---|---|
@@ -65,7 +65,7 @@ SHA-256 hashes are in `artifacts/eda/audit_summary.json`. Report them in the REA
 
 ### 2.2 Provenance: the truth must be stated
 
-- Source: the Kaggle competition **CH'27 Celebal Technologies × IIITD** (hub order forecasting).
+- Source: the Kaggle competition **Shadow Hub** (hub order forecasting).
 - **Evidence the data is a renamed version of the public Rossmann Store Sales dataset (Kaggle, 2015):**
   - hub 1 metadata (1270, Sep 2008, no loyalty) and hub 2 (570, Nov 2007, loyalty since week 13 of 2010, "Jan,Apr,Jul,Oct")
     match Rossmann stores 1 and 2;
@@ -154,7 +154,7 @@ every extreme gets investigated against its calendar and hub context before any 
 
 ### 2.6 Existing work to reuse (re-run, don't trust blindly)
 
-`~/Desktop/Kaggle_comp_clebal/`: `src/eda_pipeline.py` (audit), `tests/test_eda_pipeline.py`,
+`the repository root`: `src/eda_pipeline.py` (audit), `tests/test_eda_pipeline.py`,
 `artifacts/eda/{EDA_FINDINGS.md, audit_summary.json, tables/*.csv, figures/*.png}`. The tables include
 `lag_correlations.csv`: median within-hub correlation at lag 7 = 0.54, lag 14 = 0.70, lag 364 = 0.70. That is the
 evidence that hub-days are **not independent**. Python: `/opt/anaconda3` base, or the `eda311` conda env. Do not create
@@ -213,7 +213,7 @@ new environments. The data is ~70 MB, so a laptop is enough and no GPU is needed
 
 ---
 
-## 4. METHOD IMPORTS from the All-India #20 submission (team NOT YET, entity resolution, macro F0.5 0.990794)
+## 4. METHOD IMPORTS from the All-India #20 submission (another team, entity resolution, macro F0.5 0.990794)
 
 Their problem (record matching, LightGBM stacks, cross-encoders) is **not** ours. Copy their **measurement
 discipline**, not their models:

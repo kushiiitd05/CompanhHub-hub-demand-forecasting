@@ -13,7 +13,7 @@
 |---|---|---|---|---|
 
 ## Evidence (paste real output)
-- `validate_midterm.py`:
+- `1_midterm/analysis/07_validate.py`:
 - `pytest`:
 - `pdfinfo` pages:
 - Cross-check scipy vs manual formula (per test):

@@ -1,3 +1,5 @@
+> **Historical snapshot.** Paths refer to the layout before the 26 Oct restructure. See `../STATUS.md` for the current state.
+
 # REVIEW REQUEST: midterm revision r1
 
 - **Date / phase:** 2026-10-26; Job 1, phases 1.1–1.4 (verify, P0 fixes, statistics upgrades, build and validate).
@@ -38,7 +40,7 @@ not work on r1. The r1 gate is `analysis/07_validate.py`.
 ## Numbers that changed in the report (old v0 → new r1)
 | Quantity | Old | New | Source | Reason |
 |---|---|---|---|---|
-| Title | "CompanhHub: Hub Order Demand Forecasting" | "Promotion timing, missing data and competitors: four hypothesis tests on 1,115 retail hubs" | main.tex | B3: no model in the midterm |
+| Title | "ShadowHub: Hub Order Demand Forecasting" | "Promotion timing, missing data and competitors: four hypothesis tests on 1,115 retail hubs" | main.tex | B3: no model in the midterm |
 | "restaurant-service hubs" | present | removed; `OrderVolume` = daily volume, units unstated (9.23 per session) | verify.csv | B2, B5 |
 | Encoded size | 970,379 × 35 = 33,963,265 | 970,379 × 46 = 44,637,434 | prep_encoded_schema.csv | 8 data-quality flags and a fuller one-hot encoding |
 | T1 | +2,168.77 orders, t(1114)=64.84 | log scale: d̄=0.269 [0.263, 0.275] = +30.9%, t(1114)=90.47; raw scale on the r1 rows +2,169 | t1_results.csv | log scale, holidays and reopen windows out (C) |
