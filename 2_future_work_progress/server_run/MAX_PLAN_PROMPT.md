@@ -26,7 +26,7 @@ Read in this order, and print a 10-line summary of what you understood:
 6. `1_midterm/report/main.tex`, `1_midterm/results/*.csv`, `1_midterm/README.md`
 7. Job 2 only: `2_future_work_progress/improvement_plan/IMPROVEMENT_PLAN.md`
 
-Then run `git status`, `git log --oneline -10`, and `python -I 1_midterm/analysis/07_validate.py` and report the result. Expected: 45/46, the failure being contribution placeholders.
+Then run `git status`, `git log --oneline -10`, and `cd 1_midterm/analysis && python 07_validate.py` and report the result. Expected: 45/46, the failure being contribution placeholders.
 
 ## HARD RULES (never violate)
 - **Never invent** contributions, names, roll numbers, links or numbers. Leave `<<FILL>>` and ask.
