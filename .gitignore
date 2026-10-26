@@ -31,3 +31,6 @@ access_token
 2_future_work_progress/server_run/*.pt
 2_future_work_progress/server_run/*.cbm
 1_midterm/results/derived/
+
+# built by 1_midterm/submission/build_submission.sh; uploaded to Classroom, not stored in git
+1_midterm/submission/*.zip
