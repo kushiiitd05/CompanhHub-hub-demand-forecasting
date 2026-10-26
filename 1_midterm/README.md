@@ -20,7 +20,7 @@ cd report && tectonic main.tex                # or: pdflatex main.tex, twice
 ```
 **Only have the code zip?** It does not contain `data/raw/` (33 MB). Copy the four files from `1_midterm/data/raw/` on GitHub
 into `data/raw/` (check them against the SHA-256 table in section 2), then run the commands from `pip install` onward.
-The validator skips its git-history check when there is no `.git` folder. See `submission/README.md` for the files to upload.
+The validator skips its git-history check when there is no `.git` folder.
 
 | Step | Script | What it writes (`results/`) |
 |---|---|---|
