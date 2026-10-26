@@ -43,7 +43,7 @@ def pool() -> list[tuple[float, str]]:
     """All numeric values in the summary-level result tables (and numbers embedded in text cells)."""
     out: list[tuple[float, str]] = []
     files = sorted(p for p in OUT.glob("*.csv") if p.name not in SKIP_TABLES)
-    files += [ROOT.parent / "2_future_work_progress" / "midterm_v0_archive" / "results_v0" / "test_results.csv"]           # v0 numbers quoted as 'earlier version'
+    files += [ROOT / "results" / "v0_reference" / "test_results_v0.csv"]           # v0 numbers quoted as 'earlier version'
     for f in files:
         df = pd.read_csv(f)
         for col in df.columns:
